@@ -1,0 +1,200 @@
+{
+  "langs": [
+    "es",
+    "ca",
+    "en"
+  ],
+  "links": {
+    "youtube": "https://www.youtube.com/@arsmagna_lab",
+    "github": "https://github.com/ars-magna-lab",
+    "author": "https://www.eduherraiz.com"
+  },
+  "ui": {
+    "es": {
+      "title": "Ars Magna Lab",
+      "description": "Ars Magna Lab, el canal de YouTube de Edu Herraiz: máquinas para pensar, jugar y ayudar. Domótica, apps y juegos, IA y divulgación.",
+      "lema": "Máquinas para pensar, jugar y ayudar",
+      "intro": [
+        "Un canal de YouTube de Edu Herraiz sobre los proyectos que construye en Mallorca: domótica, apps y juegos, IA y divulgación. Cada vídeo cuenta cómo se hace, de la idea al resultado.",
+        "El nombre viene del Ars Magna de Ramon Llull, la máquina de razonar que ideó en el Puig de Randa."
+      ],
+      "canal": "Ver el canal en YouTube →",
+      "why_link": "¿Por qué el nombre?",
+      "projects": "Proyectos",
+      "github_link": "Todos los repos en GitHub",
+      "back": "Volver al inicio",
+      "footer": "Sin cookies ni rastreadores.",
+      "figura_alt": "La Figura A de Ramon Llull, redibujada"
+    },
+    "ca": {
+      "title": "Ars Magna Lab",
+      "description": "Ars Magna Lab, el canal de YouTube d'Edu Herraiz: màquines per pensar, jugar i ajudar. Domòtica, apps i jocs, IA i divulgació.",
+      "lema": "Màquines per pensar, jugar i ajudar",
+      "intro": [
+        "Un canal de YouTube d'Edu Herraiz sobre els projectes que construeix a Mallorca: domòtica, apps i jocs, IA i divulgació. Cada vídeo conta com es fa, de la idea al resultat. Els vídeos són en castellà.",
+        "El nom ve de l'Ars Magna de Ramon Llull, la màquina de raonar que va idear al Puig de Randa."
+      ],
+      "canal": "Veure el canal a YouTube →",
+      "why_link": "Per què el nom?",
+      "projects": "Projectes",
+      "github_link": "Tots els repos a GitHub",
+      "back": "Tornar a l'inici",
+      "footer": "Sense galetes ni rastrejadors.",
+      "figura_alt": "La Figura A de Ramon Llull, redibuixada"
+    },
+    "en": {
+      "title": "Ars Magna Lab",
+      "description": "Ars Magna Lab, Edu Herraiz's YouTube channel: machines to think, play and help. Home automation, apps and games, AI and science communication.",
+      "lema": "Machines to think, play and help",
+      "intro": [
+        "A YouTube channel by Edu Herraiz about the projects he builds in Mallorca: home automation, apps and games, AI and science communication. Each video shows how it's made, from the idea to the result. The videos are in Spanish.",
+        "The name comes from Ramon Llull's Ars Magna, the reasoning machine he conceived on Puig de Randa."
+      ],
+      "canal": "Watch the channel on YouTube →",
+      "why_link": "Why the name?",
+      "projects": "Projects",
+      "github_link": "All the repos on GitHub",
+      "back": "Back to home",
+      "footer": "No cookies, no trackers.",
+      "figura_alt": "Ramon Llull's Figure A, redrawn"
+    }
+  },
+  "projects": [
+    {
+      "name": {
+        "es": "Futbolín con Home Assistant",
+        "en": "Home Assistant foosball table",
+        "ca": "Futbolí amb Home Assistant"
+      },
+      "year": "2026",
+      "tags": "ESPHome · WLED · Home Assistant",
+      "image": "futbolin.jpg",
+      "es": "Un futbolín Córdoba antiguo y restaurado que cuenta los goles solo. Unas barreras de infrarrojos en los carriles avisan a un ESP32 que lleva la partida, y Home Assistant la convierte en un marcador de estadio en la tablet, con locutor, música y control por voz. Las tiras LED celebran cada gol. Todo va a batería y escondido en el mueble, sin tocar la portería.",
+      "en": "An old, restored Córdoba foosball table that keeps score by itself. Infrared beams in the ball return lanes tell an ESP32 that runs the match, and Home Assistant turns it into a stadium scoreboard on a tablet, with a commentator, music and voice control. LED strips celebrate every goal. It all runs on batteries, hidden inside the cabinet, without touching the goals.",
+      "ca": "Un futbolí Córdoba antic i restaurat que compta els gols tot sol. Unes barreres d'infrarojos als carrils avisen un ESP32 que du la partida, i Home Assistant la converteix en un marcador d'estadi a la tauleta, amb locutor, música i control per veu. Les tires LED celebren cada gol. Tot va amb bateria i amagat dins el moble, sense tocar la porteria.",
+      "links": [
+        [
+          {
+            "es": "Cómo funciona",
+            "ca": "Com funciona",
+            "en": "How it works"
+          },
+          "futbolin/"
+        ],
+        [
+          "GitHub",
+          "https://github.com/ars-magna-lab/futbolin-home-assistant"
+        ]
+      ]
+    },
+    {
+      "name": "Ars Domus",
+      "year": "2026",
+      "tags": "three.js · Claude Code",
+      "image": "ars-domus.jpg",
+      "es": "Tu casa en 3D a partir de un plano, unas fotos y datos públicos del terreno, para pasearla en el navegador. Guarda la casa actual y una propuesta de reforma, y se cambia de una a otra sin mover la cámara. Nada se modela a mano: Claude Code convierte las fuentes en datos y three.js los dibuja.",
+      "en": "Your house in 3D from a floor plan, some photos and public land data, to walk around in the browser. It keeps the current house and a renovation proposal, and you switch between them without moving the camera. Nothing is modelled by hand: Claude Code turns the sources into data and three.js draws them.",
+      "ca": "Ca teva en 3D a partir d'un plànol, unes fotos i dades públiques del terreny, per passejar-hi dins el navegador. Guarda la casa actual i una proposta de reforma, i es canvia d'una a l'altra sense moure la càmera. No es modela res a mà: Claude Code converteix les fonts en dades i three.js les dibuixa.",
+      "links": [
+        [
+          "Demo",
+          "https://ars-domus.arsmagnalab.com"
+        ],
+        [
+          "GitHub",
+          "https://github.com/ars-magna-lab/ars-domus"
+        ]
+      ]
+    },
+    {
+      "name": "Ball Radar",
+      "year": "2026",
+      "tags": "Flutter · Android",
+      "image": "ball-radar.jpg",
+      "es": "Una gincana GPS para jugar al aire libre. Alguien esconde las 7 esferas caminando por un parque o por el barrio, y el resto tiene que encontrarlas guiándose por el radar. Hecha con Flutter para Android.",
+      "en": "A GPS treasure hunt to play outdoors. Someone hides the 7 balls by walking around a park or the neighbourhood, and the others have to find them guided by the radar. Built with Flutter for Android.",
+      "ca": "Una gimcana GPS per jugar a l'aire lliure. Algú amaga les 7 esferes caminant per un parc o pel barri, i la resta les ha de trobar guiant-se pel radar. Feta amb Flutter per a Android.",
+      "links": [
+        [
+          "Google Play",
+          "https://play.google.com/store/apps/details?id=com.ballradar.app"
+        ],
+        [
+          {
+            "es": "Vídeo",
+            "en": "Video",
+            "ca": "Vídeo"
+          },
+          "https://www.youtube.com/watch?v=LTOWS466q20"
+        ]
+      ]
+    },
+    {
+      "name": "Bombshot",
+      "year": "2026",
+      "tags": "Home Assistant · Python",
+      "image": "bombshot.jpg",
+      "es": "Juegos de fiesta que funcionan enteros dentro de un altavoz Home Assistant Voice PE, sin móvil ni pantalla. En la bomba, el altavoz dice un número, empieza un tictac de 30 segundos y hay que deducir qué cable cortar. El Tótem del Chamán es un Simon de cuatro elementos con luces y voz.",
+      "en": "Party games that run entirely on a Home Assistant Voice PE speaker, no phone or screen needed. In the bomb, the speaker says a number, 30 seconds of ticking start and you have to work out which wire to cut. The Shaman's Totem is a four-element Simon with lights and voice.",
+      "ca": "Jocs de festa que funcionen sencers dins un altaveu Home Assistant Voice PE, sense mòbil ni pantalla. A la bomba, l'altaveu diu un nombre, comença un tic-tac de 30 segons i s'ha d'endevinar quin cable tallar. El Tòtem del Xaman és un Simon de quatre elements amb llums i veu.",
+      "links": [
+        [
+          "GitHub",
+          "https://github.com/ars-magna-lab/bombshot"
+        ],
+        [
+          {
+            "es": "Vídeo",
+            "en": "Video",
+            "ca": "Vídeo"
+          },
+          "https://www.youtube.com/watch?v=b6ZcncrODek"
+        ]
+      ]
+    }
+  ],
+  "name_page": {
+    "es": {
+      "title": "¿Por qué Ars Magna Lab?",
+      "lead": "En 1274, Ramon Llull subió al Puig de Randa y bajó con una idea muy rara para su época: una máquina para razonar.",
+      "body": [
+        "Llull (c. 1232–1316) fue un filósofo, escritor y místico mallorquín. Según contó él mismo, en la cima de Randa tuvo la iluminación de un método al que llamó Art: un sistema para combinar unos pocos principios y, a partir de ellos, llegar a la verdad sobre cualquier tema. Lo reescribió durante toda su vida. La versión final, el Ars generalis ultima, es la que conocemos como Ars Magna.",
+        "El truco eran las letras y los círculos. En esa versión, nueve principios se representan con las letras B a K y se colocan en círculos concéntricos de papel que giran. Al girarlos van saliendo todas las combinaciones posibles, de forma mecánica, sin depender de la inspiración de quien las mira. Es una de las primeras ideas de un procedimiento automático para generar razonamientos.",
+        "Cuatro siglos después, Leibniz lo leyó, escribió su Dissertatio de arte combinatoria (1666) y soñó con un cálculo capaz de zanjar cualquier discusión haciendo cuentas. Por eso a Llull se le cita a menudo entre los precursores lejanos de la informática."
+      ],
+      "lab_title": "¿Y el «Lab»?",
+      "lab": [
+        "Aquí es donde construyo mis máquinas: domótica, apps, juegos e IA. No son ruedas de papel, pero la idea es la misma: combinar piezas sencillas para que una máquina piense, juegue o ayude.",
+        "Y como el Puig de Randa está en Algaida, donde vivo y ando, el nombre casi se eligió solo. El emblema es la Figura A de Llull redibujada: las nueve letras, las líneas que las unen y los anillos que giran."
+      ]
+    },
+    "en": {
+      "title": "Why Ars Magna Lab?",
+      "lead": "In 1274, Ramon Llull climbed Puig de Randa and came down with an idea that was very strange for its time: a machine for reasoning.",
+      "body": [
+        "Llull (c. 1232–1316) was a Mallorcan philosopher, writer and mystic. By his own account, on top of Randa he had the illumination of a method he called the Art: a system for combining a few principles and, from them, reaching the truth about any subject. He kept rewriting it all his life. The final version, the Ars generalis ultima, is the one known as the Ars Magna.",
+        "The trick was letters and circles. In that version, nine principles are represented by the letters B to K and placed on concentric paper circles that rotate. Turning them produces every possible combination, mechanically, without relying on the inspiration of whoever is looking. It is one of the earliest ideas of an automatic procedure for generating arguments.",
+        "Four centuries later Leibniz read him, wrote his Dissertatio de arte combinatoria (1666) and dreamed of a calculus that could settle any dispute by doing sums. That is why Llull is often named among the distant forerunners of computing."
+      ],
+      "lab_title": "And the “Lab”?",
+      "lab": [
+        "This is where I build my machines: home automation, apps, games and AI. They are not paper wheels, but the idea is the same: combine simple pieces so a machine can think, play or help.",
+        "And since Puig de Randa is in Algaida, where I live and roam, the name almost picked itself. The emblem is Llull's Figure A redrawn: the nine letters, the lines joining them and the rotating rings."
+      ]
+    },
+    "ca": {
+      "title": "Per què Ars Magna Lab?",
+      "lead": "El 1274, Ramon Llull va pujar al Puig de Randa i en va baixar amb una idea molt estranya per a la seva època: una màquina per raonar.",
+      "body": [
+        "Llull (c. 1232–1316) va ser un filòsof, escriptor i místic mallorquí. Segons va contar ell mateix, al cim de Randa va tenir la il·luminació d'un mètode que va anomenar Art: un sistema per combinar uns pocs principis i, a partir d'ells, arribar a la veritat sobre qualsevol tema. El va reescriure tota la vida. La versió final, l'Ars generalis ultima, és la que coneixem com a Ars Magna.",
+        "El truc eren les lletres i els cercles. En aquesta versió, nou principis es representen amb les lletres B a K i es col·loquen en cercles concèntrics de paper que giren. En girar-los van sortint totes les combinacions possibles, de manera mecànica, sense dependre de la inspiració de qui les mira. És una de les primeres idees d'un procediment automàtic per generar raonaments.",
+        "Quatre segles després, Leibniz el va llegir, va escriure la seva Dissertatio de arte combinatoria (1666) i va somiar un càlcul capaç de resoldre qualsevol discussió fent comptes. Per això sovint es cita Llull entre els precursors llunyans de la informàtica."
+      ],
+      "lab_title": "I el «Lab»?",
+      "lab": [
+        "Aquí és on construeixo les meves màquines: domòtica, apps, jocs i IA. No són rodes de paper, però la idea és la mateixa: combinar peces senzilles perquè una màquina pensi, jugui o ajudi.",
+        "I com que el Puig de Randa és a Algaida, on visc i camino, el nom gairebé es va triar tot sol. L'emblema és la Figura A de Llull redibuixada: les nou lletres, les línies que les uneixen i els anells que giren."
+      ]
+    }
+  }
+}

@@ -1,0 +1,69 @@
+/* arsmagnalab.com: siempre oscura, con la paleta de Ars Magna */
+:root { --ink:#11131b; --card:#171a25; --line:#262b3b; --gold:#d9a441; --terra:#c8553d; --teal:#3aa6a0; --parch:#efe6d2; --muted:#9aa0b2; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; min-height: 100vh;
+  background: radial-gradient(900px 600px at 50% 0%, #232a3d 0%, var(--ink) 70%) no-repeat var(--ink);
+  color: var(--parch); font: 400 17px/1.6 Inter, system-ui, sans-serif;
+}
+main { max-width: 760px; margin: 0 auto; padding: 20px 20px 56px; }
+a { color: var(--gold); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--gold) 35%, transparent); }
+a:hover { border-bottom-color: var(--gold); }
+a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+p { margin: 0 0 14px; }
+
+.lang { display: flex; justify-content: flex-end; gap: 12px; font-size: 13px; letter-spacing: 1px; }
+.lang a { color: var(--muted); border: 0; }
+.lang a[aria-current] { color: var(--parch); border-bottom: 1px solid var(--parch); }
+
+/* Portada */
+.hero { text-align: center; max-width: 640px; margin: 24px auto 0; }
+.figura { width: 200px; height: 200px; border-radius: 50%; display: block; margin: 0 auto 28px; }
+h1 { font: 700 clamp(34px, 8.6vw, 60px)/1.1 Cinzel, Georgia, serif; letter-spacing: .06em; margin: 0; text-wrap: balance; }
+.lema { color: var(--gold); font-size: 20px; margin: 14px 0 28px; }
+.canal {
+  display: inline-block; margin: 18px 0 8px; padding: 14px 26px; border-radius: 6px; border: 0;
+  background: var(--gold); color: var(--ink); font-weight: 600;
+}
+.canal:hover { background: #e8b75a; }
+.canal:focus-visible { outline: 3px solid var(--parch); }
+.more { margin-top: 18px; }
+
+/* Índice de proyectos */
+section { border-top: 1px solid var(--line); padding-top: 28px; margin-top: 56px; }
+h2 { font: 600 14px/1 Inter, sans-serif; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin: 0 0 8px; }
+ul.projects { list-style: none; margin: 0; padding: 0; }
+.proj { display: grid; grid-template-columns: 176px 1fr; gap: 20px; align-items: start; padding: 20px 0; border-bottom: 1px dashed var(--line); }
+.thumb { border: 0; display: block; }
+.thumb img { display: block; width: 176px; height: 99px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); }
+.proj-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-bottom: 6px; }
+.proj h3 { font: 600 18px/1.3 Inter, sans-serif; margin: 0; }
+.meta { color: var(--muted); font-size: 13px; }
+.proj p { margin: 0 0 8px; font-size: 16px; }
+.links { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 15px; }
+
+/* ¿Por qué el nombre? */
+.essay { max-width: 640px; margin: 24px auto 0; }
+.essay h1 { font-size: clamp(30px, 7vw, 44px); text-align: left; }
+.essay h2 { font: 600 22px/1.3 Cinzel, Georgia, serif; letter-spacing: .04em; text-transform: none; color: var(--parch); margin: 36px 0 12px; }
+.lead { font-size: 19px; color: var(--muted); margin: 16px 0 8px; }
+.essay figure { margin: 24px 0; text-align: center; }
+.back { font-size: 15px; margin: 0 0 24px; }
+.essay .back:last-child { margin: 36px 0 0; }
+.wheel { max-width: 100%; height: auto; }
+.wheel .chords line { stroke: var(--teal); stroke-width: .8; stroke-opacity: .6; }
+.wheel .ring { fill: none; stroke: var(--gold); stroke-width: 1.6; }
+.wheel .ring2 { fill: none; stroke: var(--gold); stroke-width: 1; stroke-opacity: .5; }
+.wheel .dots circle { fill: var(--ink); stroke: var(--terra); stroke-width: 1.6; }
+.wheel .hub { fill: var(--gold); }
+.wheel text { fill: var(--terra); font: 600 12px Cinzel, serif; text-anchor: middle; }
+
+footer { margin-top: 56px; color: var(--muted); font-size: 13px; text-align: center; }
+footer a { color: var(--muted); }
+
+@media (max-width: 560px) {
+  main { padding: 16px 16px 48px; }
+  .proj { grid-template-columns: 1fr; gap: 12px; }
+  .thumb img { width: 100%; height: auto; aspect-ratio: 16 / 9; }
+}

@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart foosball (with Home Assistant) · Ars Magna Lab</title>
+<meta name="description" content="A restored Córdoba foosball table that counts goals with IR beams and an ESP32 running ESPHome, with a scoreboard on a Home Assistant dashboard, voice control with Assist and WLED light effects. Battery powered, no holes drilled in the goals.">
+<meta name="author" content="Edu Herraiz">
+<link rel="canonical" href="https://arsmagnalab.com/en/futbolin/">
+<link rel="alternate" hreflang="es" href="https://arsmagnalab.com/futbolin/">
+<link rel="alternate" hreflang="ca" href="https://arsmagnalab.com/ca/futbolin/">
+<link rel="alternate" hreflang="en" href="https://arsmagnalab.com/en/futbolin/">
+<link rel="alternate" hreflang="x-default" href="https://arsmagnalab.com/futbolin/">
+<meta property="og:title" content="Smart foosball (with Home Assistant) · Ars Magna Lab">
+<meta property="og:description" content="IR beams, ESPHome, WLED and Assist in a restored Córdoba foosball table, no holes drilled in the goals.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Ars Magna Lab">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://arsmagnalab.com/futbolin/media/compartir.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The foosball table mid-game, with the tablet next to it showing 2-1">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:url" content="https://arsmagnalab.com/en/futbolin/">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Cinzel:wght@600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../futbolin/futbolin.css">
+</head>
+<body>
+
+<div class="wrap top">
+  <a href="../../en/">← Ars Magna Lab</a>
+  <nav class="lang" aria-label="English"><a href="../../futbolin/" hreflang="es" lang="es">ES</a> <a href="../../ca/futbolin/" hreflang="ca" lang="ca">CA</a> <a href="../../en/futbolin/" hreflang="en" lang="en" aria-current=page>EN</a></nav>
+</div>
+
+<header class="hero wrap">
+  <p class="kicker">A restored Córdoba foosball table</p>
+  <h1>Smart <em>foosball</em><small>(with Home Assistant)</small></h1>
+  <p class="lead">Infrared beams in the ball return lanes and an <b>ESP32 running ESPHome</b> that keeps track of the match. The scoreboard is a <b>dashboard</b> on a tablet, with a commentator and music, it's voice controlled with <b>Assist</b> and goals are celebrated with <b>WLED</b>. It runs on batteries, hidden inside the cabinet, and the goals haven't been touched.</p>
+  <div class="chips"><span>ESPHome</span><span>WLED</span><span>Assist</span><span>Dashboard</span><span>ESP32</span><span>IR beams</span></div>
+  <figure class="media hero-foto"><img src="../../futbolin/media/partida.webp" width="1600" height="900" alt="The foosball table mid-game, with the tablet next to it showing 2-1"></figure>
+</header>
+
+<section class="alt">
+  <div class="wrap">
+    <p class="num">01</p>
+    <h2>What it does</h2>
+    <div class="narrow">
+      <p>You play with 11 balls and the first to 6 wins. At 5-5, the last ball is served from the centre: that's <b>“la buena”</b>, the decider. The ESP32 knows these rules and publishes the phase of the match in <code>sensor.futbolin_fase</code>. Everything else (scoreboard, sound and lights) reacts to that phase.</p>
+    </div>
+    <div class="momentos">
+      <div class="momento"><b>Kick-off</b><p>“New game” by voice. Scoreboard back to zero and the commentator introduces the clásico.</p><code>normal</code></div>
+      <div class="momento"><b>Goal</b><p>Counted automatically. A wave of light in the team's colour and a line from the commentator.</p><code>event.futbolin_gol</code></div>
+      <div class="momento"><b>Match point</b><p>When a team reaches 5, the strips breathe in its colour.</p><code>bola_partido_a</code></div>
+      <div class="momento oro"><b>The decider</b><p>5-5: duelling waves, a golden heartbeat and a banner on the scoreboard.</p><code>la_buena</code></div>
+      <div class="momento"><b>Victory</b><p>A light party and the winner's screen. Extra goals no longer count.</p><code>fin_a</code></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="num">02</p>
+    <h2>A classic Córdoba</h2>
+    <div class="dos">
+      <div>
+        <p>It's an old Córdoba foosball table, black and restored. That set the rules for the build:</p>
+        <ul class="puntos">
+          <li><b>Same as ever on the outside.</b> No screens stuck on, no new buttons. The only visible thing is a main switch underneath.</li>
+          <li><b>The goals stay untouched.</b> The ball is solid and flies in: any sensor inside the goal would end up broken or bouncing the ball back onto the pitch.</li>
+          <li><b>No cables while playing.</b> Everything runs on batteries.</li>
+          <li><b>No buttons on the table.</b> Everything is controlled from Home Assistant.</li>
+        </ul>
+        <p class="nota">The abacus with red and blue beads is still in its place, just in case.</p>
+      </div>
+      <figure class="media"><img src="../../futbolin/media/futbolin.webp" width="1600" height="900" alt="The restored Córdoba foosball table, black, with white and maroon players" loading="lazy"><figcaption>The Córdoba, restored. Nothing new shows on the outside.</figcaption></figure>
+    </div>
+    <div class="grid-media tres">
+      <figure class="media"><img src="../../futbolin/media/placa.webp" width="1600" height="900" alt="Brass plate from the Barcelona Industry Office: Justo A. Córdoba brand, parlour football, table type, approved in 1950" loading="lazy"><figcaption>The original plate: “fútbol de salón” (parlour football), table type, approved by the Spanish security authorities in 1950.</figcaption></figure>
+      <figure class="media"><img src="../../futbolin/media/antes.webp" width="1600" height="1200" alt="The same foosball table before restoration, painted red and with worn players" loading="lazy"><figcaption>How it looked in 2022, before the restoration.</figcaption></figure>
+      <figure class="media"><img src="../../futbolin/media/antes-detalle.webp" width="1600" height="1200" alt="Close-up of the players before the restoration, with worn paint" loading="lazy"><figcaption>The players, with decades of matches behind them.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <p class="num">03</p>
+    <h2>How does it know it's a goal?</h2>
+    <div class="narrow">
+      <p>The obvious place to look would be the goal, but it's better to look <b>afterwards</b>. When the ball goes in, it drops through a slot into a wooden lane that rolls it down to the ball tray. By then it's no longer flying: it rolls slowly and always along the same path.</p>
+      <p>Each lane has an <b>infrared beam</b>, with an emitter on one side and a receiver opposite. When the ball passes, it breaks the beam for a few tens of milliseconds, and that's a goal.</p>
+    </div>
+
+    <div class="diagrama" role="img" aria-label="Top view of the lane: the ball rolls between two wooden wedges, breaks the infrared beam and adds a goal">
+      <svg viewBox="0 0 720 230">
+        <text class="tit" x="20" y="28">The lane, seen from above</text>
+        <rect x="20" y="60" width="680" height="12" fill="#3a2a1c"/>
+        <rect x="20" y="168" width="680" height="12" fill="#3a2a1c"/>
+        <rect x="20" y="72" width="680" height="96" fill="#2a1f15"/>
+        <polygon points="250,72 360,72 360,96" fill="#8a6a44"/>
+        <polygon points="250,168 360,168 360,144" fill="#8a6a44"/>
+        <rect x="362" y="74" width="16" height="20" rx="3" fill="#20242f" stroke="#9aa0b2"/>
+        <rect x="362" y="146" width="16" height="20" rx="3" fill="#20242f" stroke="#9aa0b2"/>
+        <line class="haz" x1="370" y1="94" x2="370" y2="146"/>
+        <g class="bola-carril"><circle cx="80" cy="120" r="17" fill="#e8e2d2"/></g>
+        <text class="mas-uno" x="392" y="58">+1</text>
+        <text class="suave" x="388" y="88">IR emitter</text>
+        <text class="suave" x="388" y="162">Receiver</text>
+        <text class="suave" x="150" y="208">Wooden wedges glued in place: each sensor sits sheltered behind one</text>
+        <text class="suave" x="24" y="52">← from the goal</text>
+        <text class="suave" x="560" y="52">to the ball tray →</text>
+      </svg>
+    </div>
+
+    <h3>As unobtrusive as possible</h3>
+    <div class="ventajas">
+      <div class="ventaja"><b>Zero holes</b><p>Two wooden wedges glued inside the lane. Neither the goal nor the lane has been drilled.</p></div>
+      <div class="ventaja"><b>Removable</b><p>The wedges come unglued and the sensors use connectors. The table goes back to how it was.</p></div>
+      <div class="ventaja"><b>Out of the way</b><p>Each sensor is sheltered behind its wedge. The ball never touches it and the ramp guides it without slowing it down.</p></div>
+      <div class="ventaja"><b>Nothing slips by</b><p>The beam crosses the lane wall to wall, so the ball breaks it wherever it rolls.</p></div>
+    </div>
+
+    <h3>What the firmware does</h3>
+    <ul class="puntos narrow">
+      <li>Edge detection on an interrupt, and a 400 ms lockout after each goal so bounces don't count.</li>
+      <li>If a beam stays blocked for more than 2 s, it reports a <b>jam</b> (<code>binary_sensor.futbolin_atasco_a</code>).</li>
+      <li><b>Self-test</b> at boot: each emitter is powered from its own GPIO. The firmware switches it off and checks that the receiver reads “blocked”. If it fails, the strips turn red.</li>
+      <li>Every beam break is logged in <code>sensor.futbolin_ultimo_corte</code> with its duration and what was made of it (goal, noise or bounce). That way the HA logbook keeps a diary of the match.</li>
+    </ul>
+    <figure class="lamina"><a href="../../futbolin/diagramas/barrera-ir.svg" aria-label="Open the diagram full size"><img src="../../futbolin/diagramas/barrera-ir.svg" width="760" height="285" alt="Cross-section of the lane with the emitter and receiver on either side of the ball, and the signal on GPIO 32: the beam is broken for about 35 ms by a goal, the 400 ms lockout ignores bounces and very short breaks are discarded as noise" loading="lazy"></a><figcaption>The beam seen from the front and the signal the ESP32 gets from a goal. The diagrams are in Spanish.</figcaption></figure>
+
+    <div class="grid-media dos">
+      <figure class="media"><img src="../../futbolin/media/carril.webp" width="1600" height="900" alt="The ball return lane with the two wooden wedges glued to the walls and the sensors behind them" loading="lazy"><figcaption>The two wedges in the lane, with a sensor behind each one.</figcaption></figure>
+      <figure class="media vertical"><video src="../../futbolin/media/carril.mp4" poster="../../futbolin/media/carril-poster.jpg" width="720" height="1280" autoplay muted loop playsinline preload="metadata" aria-label="A ball rolls down the lane and passes between the two wedges"></video><figcaption>The ball passes between the wedges and breaks the beam. Real speed.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="num">04</p>
+    <h2>Architecture</h2>
+    <div class="narrow">
+      <p>The key decision: <b>the ESP32 runs the match, not Home Assistant.</b> It counts, works out the phase and stores it in flash (<code>restore_value</code>) so a reboot or an OTA update doesn't lose it.</p>
+      <p>From there it reports two ways. To HA, through the ESPHome native API. To WLED, <b>directly</b> through the JSON API (<code>{"ps": 3}</code>), bypassing HA, so the effect fires instantly.</p>
+    </div>
+
+    <div class="diagrama" id="flujo" role="img" aria-label="Flow: the beam tells the ESP32, which sends the effect to WLED through the JSON API and the state to Home Assistant through the ESPHome native API; Home Assistant shows it on the tablet">
+      <svg viewBox="0 0 760 300">
+        <defs><marker id="punta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#9aa0b2"/></marker></defs>
+        <rect class="caja" x="20" y="120" width="130" height="64" rx="10"/>
+        <text x="85" y="148" text-anchor="middle">IR beams</text><text class="suave" x="85" y="168" text-anchor="middle">GPIO + interrupt</text>
+        <rect class="caja oro" x="210" y="112" width="150" height="80" rx="10"/>
+        <text x="285" y="142" text-anchor="middle">ESP32 · ESPHome</text><text class="suave" x="285" y="162" text-anchor="middle">runs the match</text><text class="suave" x="285" y="178" text-anchor="middle">state in flash</text>
+        <g class="nodo-red">
+          <rect class="caja teal" x="440" y="24" width="150" height="64" rx="10"/>
+          <text x="515" y="52" text-anchor="middle">WLED</text><text class="suave" x="515" y="72" text-anchor="middle">2 strips · presets</text>
+          <rect class="caja teal" x="440" y="212" width="150" height="64" rx="10"/>
+          <text x="515" y="240" text-anchor="middle">Home Assistant</text><text class="suave" x="515" y="260" text-anchor="middle">dashboard · Assist</text>
+          <rect class="caja" x="620" y="212" width="124" height="64" rx="10"/>
+          <text x="682" y="240" text-anchor="middle">Tablet</text><text class="suave" x="682" y="260" text-anchor="middle">scoreboard, voice</text>
+        </g>
+        <path class="flecha" d="M150 152H206"/>
+        <path class="flecha wifi" d="M360 130C400 100 400 56 436 56"/>
+        <path class="flecha wifi" d="M360 174C400 204 400 244 436 244"/>
+        <path class="flecha wifi" d="M590 244H616"/>
+        <circle class="pulso" r="5"><animateMotion dur="2.4s" repeatCount="indefinite" path="M20 152H210"/></circle>
+        <circle class="pulso wifi" r="5"><animateMotion dur="2.4s" begin=".8s" repeatCount="indefinite" path="M360 130C400 100 400 56 440 56"/></circle>
+        <circle class="pulso wifi" r="5"><animateMotion dur="2.4s" begin=".8s" repeatCount="indefinite" path="M360 174C400 204 400 244 440 244"/></circle>
+        <text class="suave" x="404" y="36" text-anchor="end">WLED JSON API</text>
+        <text class="suave" x="404" y="290" text-anchor="end">ESPHome native API</text>
+        <g class="aviso-red"><rect x="200" y="206" width="170" height="44" rx="8" fill="#2a1410" stroke="#c8553d"/><text x="285" y="226" text-anchor="middle">No WiFi: still counting</text><text class="suave" x="285" y="242" text-anchor="middle">score catches up later</text></g>
+      </svg>
+      <div style="margin-top:12px; text-align:center"><button id="corta-wifi" aria-pressed="false">Cut the WiFi</button></div>
+    </div>
+    <p class="nota">If the WiFi or Home Assistant goes down, the ESP32 keeps counting, and when it's back the tablet shows the right score. HA holds no match logic at all: it only displays the entities and presses the buttons.</p>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <p class="num">05</p>
+    <h2>What Home Assistant sees</h2>
+    <div class="narrow">
+      <p>The ESPHome device is called <code>futbolin</code>, so every entity ends up as <code>&lt;domain&gt;.futbolin_*</code>. The entity names are in Spanish. The teams are A and B: at home, A is Real Madrid and B is Barça.</p>
+    </div>
+    <h3>State</h3>
+    <div class="tabla"><table>
+      <tr><th>Entity</th><th>What it is</th></tr>
+      <tr><td><code>sensor.futbolin_goles_a</code> / <code>_b</code></td><td>Goals for each team, from 0 to 6</td></tr>
+      <tr><td><code>sensor.futbolin_fase</code></td><td><code>reposo</code> (idle), <code>normal</code>, <code>bola_partido_a</code>/<code>_b</code> (match point), <code>la_buena</code> (decider), <code>fin_a</code>/<code>_b</code> (end)</td></tr>
+      <tr><td><code>event.futbolin_gol</code></td><td><code>gol_a</code> or <code>gol_b</code>, only for goals seen by the beams. It's the natural trigger for automations</td></tr>
+      <tr><td><code>sensor.futbolin_bateria</code></td><td>Battery %, computed from the highest voltage in the last 10 min so the strips' current spikes don't make it jump</td></tr>
+      <tr><td><code>binary_sensor.futbolin_autotest</code></td><td>Result of the beams' self-test</td></tr>
+    </table></div>
+    <h3>Controls</h3>
+    <div class="tabla"><table>
+      <tr><th>Entity</th><th>What it does</th></tr>
+      <tr><td><code>button.futbolin_nueva_partida</code></td><td>0-0, let's play</td></tr>
+      <tr><td><code>button.futbolin_gol_a_mas</code> / <code>_menos</code></td><td>Corrects the score. The phase is recalculated: a −1 from 6-5 brings match point back</td></tr>
+      <tr><td><code>button.futbolin_anular_partida</code></td><td>Back to <code>reposo</code></td></tr>
+      <tr><td><code>switch.futbolin_efectos_luz</code></td><td>Turns the strip effects on or off</td></tr>
+      <tr><td><code>number.futbolin_luces_bateria_minima</code></td><td>Battery % below which the lights are cut</td></tr>
+      <tr><td><code>switch.futbolin_modo_enchufado</code></td><td>To play from a 12 V power supply instead of batteries: hides the battery and silences its warnings</td></tr>
+    </table></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="num">06</p>
+    <h2>The scoreboard: a dashboard with a commentator</h2>
+    <div class="dos">
+      <div>
+        <p>The scoreboard is an HA dashboard built from a single <code>button-card</code> with custom HTML: dot-matrix digits, the column of 11 balls showing the order of the goals, the “GOAL!” animation, the decider banner and the winner's screen. While it's open, HA disables the tablet's screensaver.</p>
+        <h3>The commentator</h3>
+        <p>Every goal is called by a commentator who follows the match: the first goal, the equaliser, the streak, the comeback, match point, the goal that saves the match… There are <b>348 lines</b>, generated in advance in Spanish with an OpenAI TTS voice. HA works out the moment of the match as a sensor attribute and the dashboard picks a random line, never repeating the previous one.</p>
+      </div>
+      <figure class="media"><img src="../../futbolin/media/tablet.webp" width="1600" height="900" alt="The tablet showing the scoreboard at 0-0, propped on the foosball table next to the abacus" loading="lazy"><figcaption>The scoreboard on the tablet, next to the good old abacus.</figcaption></figure>
+    </div>
+    <div class="narrow">
+      <h3>The music trick</h3>
+      <p>With music playing on the tablet, the commentator has to duck it, not stop it. Android only ducks the music if the new sound requests “transient, may duck” audio focus, and the WebView only requests it that way for media <b>shorter than 5 s</b>. With a longer line, the music paused and never came back.</p>
+      <p>The fix: while the commentator speaks, an <code>&lt;audio&gt;</code> element loops 1 s of silence, which requests the short focus. The voice plays separately through <b>Web Audio</b>, which requests no focus at all. When it's done, the silence's <code>src</code> is emptied and <code>load()</code> is called: with <code>pause()</code> alone, the focus is never released and the music stays ducked.</p>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <p class="num">07</p>
+    <h2>Voice control with Assist</h2>
+    <div class="dos">
+      <div>
+        <p>The table has no buttons: everything is done with <b>Assist</b> from the tablet. The phrases are conversation triggers in an automation that presses the ESPHome buttons. They're matched locally before reaching the LLM, so the table doesn't need to be exposed to Assist.</p>
+<pre><span class="k">triggers</span>:
+  - <span class="k">trigger</span>: conversation
+    <span class="k">command</span>:
+      - <span class="s">"gol del Madrid"</span>
+      - <span class="s">"gol de los blancos"</span>
+<span class="k">actions</span>:
+  - <span class="k">action</span>: button.press
+    <span class="k">target</span>:
+      <span class="k">entity_id</span>: button.futbolin_gol_a_mas</pre>
+      </div>
+      <div>
+        <div class="tabla"><table>
+          <tr><th>Phrase</th><th>Action</th></tr>
+          <tr><td>«Nueva partida», «echamos una» (new game, let's play one)</td><td>New game and scoreboard on the tablet</td></tr>
+          <tr><td>«Gol del Barça» (Barça goal)</td><td>+1</td></tr>
+          <tr><td>«Ese no vale el del Madrid» (Madrid's one doesn't count)</td><td>−1</td></tr>
+          <tr><td>«¿Cómo vamos?» (what's the score?)</td><td>Replies with the score and the phase</td></tr>
+          <tr><td>«Anula la partida» (cancel the game)</td><td>Back to idle</td></tr>
+          <tr><td>«Pon la música» (play the music)</td><td>Music on the tablet</td></tr>
+        </table></div>
+        <p class="nota">The phrases are in Spanish, the language of our Assist at home.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="num">08</p>
+    <h2>Lights with WLED</h2>
+    <div class="narrow">
+      <p>There's an LED strip along each side of the pitch (12 V WS2811, 28 pixels each), driven by a Gledopto controller running WLED. Each strip is a segment. On batteries they draw too much to stay on for a whole match, so they only play effects of a few seconds and then switch themselves off again.</p>
+      <p>Each moment is a preset (or a playlist of presets) that the ESP32 fires through the JSON API. The presets come out of a generator script, so they're versioned with the rest of the code.</p>
+    </div>
+    <figure class="lamina"><a href="../../futbolin/diagramas/tiras-conexion.svg" aria-label="Open the diagram full size"><img src="../../futbolin/diagramas/tiras-conexion.svg" width="760" height="242" alt="The 12 V bus powers the Gledopto running WLED, which has two outputs: strip A on GPIO 16 (pixels 0 to 27) and strip B on GPIO 2 (pixels 28 to 55)" loading="lazy"></a><figcaption>Each strip goes to its own Gledopto output and is a WLED segment.</figcaption></figure>
+    <div class="tabla"><table>
+      <tr><th>Preset</th><th>When</th><th>What it does</th></tr>
+      <tr><td><code>gol_a</code> / <code>gol_b</code></td><td>Goal</td><td>A wave in the team's colour towards the opposing goal and fireworks, 3 s</td></tr>
+      <tr><td><code>bola_partido_*</code></td><td>A team reaches 5</td><td>The strips breathe in its colour for 8 s</td></tr>
+      <tr><td><code>la_buena</code></td><td>5-5</td><td>Duelling waves, each from its own goal, and a golden heartbeat</td></tr>
+      <tr><td><code>fin_a</code> / <code>fin_b</code></td><td>Winning goal</td><td>A party in the winner's colour, 10 s</td></tr>
+      <tr><td><code>aviso</code></td><td>Jam or failed self-test</td><td>Solid red until it's resolved</td></tr>
+    </table></div>
+    <p class="nota">On low battery, the ESP32 cuts the lights by itself: if the % stays below <code>number.futbolin_luces_bateria_minima</code> for 60 s, it switches them off, and doesn't turn them back on until the battery is 10 points above the minimum. That margin stops the cut-off from bouncing, because the effects themselves pull the voltage down.</p>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <p class="num">09</p>
+    <h2>Wiring and batteries</h2>
+    <div class="narrow">
+      <p>All the electronics sit on a plywood panel next to the batteries, in the fixed part of the cabinet: the ESP32, the buck converter that steps 12 V down to 5 V, a terminal strip acting as the 12 V bus and the interface board for the beams. The strips take 12 V directly.</p>
+      <p>Each lane gets a 5-wire cable ending in two JST-SM connectors, one for the receiver and one for the emitter. The pull-up resistors are soldered at the ESP32 end of the cable, and a 100k/20k divider brings the 12 V down to GPIO 34 to compute the battery %.</p>
+    </div>
+    <figure class="lamina"><a href="../../futbolin/diagramas/cableado-general.svg" aria-label="Open the diagram full size"><img src="../../futbolin/diagramas/cableado-general.svg" width="760" height="440" alt="Overall schematic: two batteries with their fuses, the switch, the 12 V bus, the Gledopto with the strips, the 5 V buck converter, the ESP32 and the interface with the cables to both lanes" loading="lazy"></a><figcaption>The overall schematic. In red, the +12 V.</figcaption></figure>
+    <h3>The ESP32 and the beams</h3>
+    <figure class="lamina"><a href="../../futbolin/diagramas/placa-interfaz.svg" aria-label="Open the diagram full size"><img src="../../futbolin/diagramas/placa-interfaz.svg" width="760" height="400" alt="Wiring a beam to the ESP32: 3.3 V and GND through screw terminals, the receiver signal to GPIO 32 with a 5.1 kΩ pull-up and 1 kΩ in series, the emitter to GPIO 14 and the battery divider to GPIO 34" loading="lazy"></a><figcaption>How a beam connects to the ESP32, with the battery divider on GPIO 34.</figcaption></figure>
+    <h3>The batteries</h3>
+    <div class="narrow">
+      <p>Two 12 V 7 Ah lead-acid batteries in parallel, each with its own 5 A fuse, and a main switch under the cabinet. On paper they're good for <b>about 7 hours</b> of play (still to be measured). To play plugged in, you take the batteries out and connect a 12 V power supply in their place.</p>
+    </div>
+    <figure class="lamina"><a href="../../futbolin/diagramas/alimentacion-cableado.svg" aria-label="Open the diagram full size"><img src="../../futbolin/diagramas/alimentacion-cableado.svg" width="760" height="390" alt="Battery wiring: each one with its 5 A fuse holder, both positives to the switch and from there to the 12 V terminals, which feed the Gledopto, the buck converter and the interface; the negatives to the GND terminal" loading="lazy"></a><figcaption>Each battery has its fuse next to the terminal and both positives join at the switch.</figcaption></figure>
+    <div class="grid-media dos">
+      <figure class="media"><img src="../../futbolin/media/interior.webp" width="1600" height="900" alt="The foosball table with the playing field tilted up and the electronics inside the cabinet" loading="lazy"><figcaption>With the playing field lifted: it all fits inside the cabinet.</figcaption></figure>
+      <figure class="media"><img src="../../futbolin/media/electronica.webp" width="1600" height="900" alt="The electronics box, with the ESP32 on its terminal board, the buck converter and the connections" loading="lazy"><figcaption>The ESP32 on its terminal board, the buck converter and the beam connections.</figcaption></figure>
+      <figure class="media"><img src="../../futbolin/media/baterias.webp" width="1600" height="900" alt="The two lead-acid batteries and the Gledopto controller inside a blue box" loading="lazy"><figcaption>The two batteries, with their fuses, and the Gledopto.</figcaption></figure>
+      <figure class="media"><img src="../../futbolin/media/interruptor.webp" width="1600" height="900" alt="The main switch, a round push button with a red ring screwed under the cabinet" loading="lazy"><figcaption>The main switch: everything powers up from under the cabinet.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="cierre">
+  <div class="wrap narrow">
+    <h2>The code</h2>
+    <p>It's all on GitHub, open source: the ESPHome firmware, the Home Assistant package with the scoreboard dashboard and the Assist phrases, the WLED presets with their generator, the commentary generator and the diagrams.</p>
+    <div class="enlaces">
+      <a href="https://github.com/ars-magna-lab/futbolin-home-assistant" rel="noopener">Code on GitHub →</a>
+      <a href="https://www.youtube.com/@arsmagna_lab" rel="noopener">YouTube channel →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© Edu Herraiz · <a href="../../en/">Ars Magna Lab</a></div>
+</footer>
+
+<script>
+document.getElementById("corta-wifi").addEventListener("click", e => {
+  const on = document.getElementById("flujo").classList.toggle("sin-wifi");
+  e.target.setAttribute("aria-pressed", on);
+  e.target.textContent = on ? "WiFi back on" : "Cut the WiFi";
+});
+</script>
+</body>
+</html>

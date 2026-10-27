@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domotitzant un futbolí (amb Home Assistant) · Ars Magna Lab</title>
+<meta name="description" content="Un futbolí Córdoba restaurat que compta els gols amb barreres IR i un ESP32 amb ESPHome, amb marcador en un dashboard de Home Assistant, veu amb Assist i efectes amb WLED. Amb bateria i sense foradar la porteria.">
+<meta name="author" content="Edu Herraiz">
+<link rel="canonical" href="https://arsmagnalab.com/ca/futbolin/">
+<link rel="alternate" hreflang="es" href="https://arsmagnalab.com/futbolin/">
+<link rel="alternate" hreflang="ca" href="https://arsmagnalab.com/ca/futbolin/">
+<link rel="alternate" hreflang="en" href="https://arsmagnalab.com/en/futbolin/">
+<link rel="alternate" hreflang="x-default" href="https://arsmagnalab.com/futbolin/">
+<meta property="og:title" content="Domotitzant un futbolí (amb Home Assistant) · Ars Magna Lab">
+<meta property="og:description" content="Barreres IR, ESPHome, WLED i Assist en un futbolí Córdoba restaurat, sense foradar la porteria.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Ars Magna Lab">
+<meta property="og:locale" content="ca_ES">
+<meta property="og:image" content="https://arsmagnalab.com/futbolin/media/compartir.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="El futbolí en plena partida, amb la tauleta al costat marcant 2-1">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:url" content="https://arsmagnalab.com/ca/futbolin/">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Cinzel:wght@600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../futbolin/futbolin.css">
+</head>
+<body>
+
+<div class="wrap top">
+  <a href="../../ca/">← Ars Magna Lab</a>
+  <nav class="lang" aria-label="Català"><a href="../../futbolin/" hreflang="es" lang="es">ES</a> <a href="../../ca/futbolin/" hreflang="ca" lang="ca" aria-current=page>CA</a> <a href="../../en/futbolin/" hreflang="en" lang="en">EN</a></nav>
+</div>
+
+<header class="hero wrap">
+  <p class="kicker">Un futbolí Córdoba restaurat</p>
+  <h1>Domotitzant un <em>futbolí</em><small>(amb Home Assistant)</small></h1>
+  <p class="lead">Barreres d'infrarojos als carrils de recollida i un <b>ESP32 amb ESPHome</b> que du la partida. El marcador és un <b>dashboard</b> a la tauleta, amb locutor i música, es controla per veu amb <b>Assist</b> i els gols se celebren amb <b>WLED</b>. Va amb bateria, amagat dins el moble, i la porteria no s'ha tocat.</p>
+  <div class="chips"><span>ESPHome</span><span>WLED</span><span>Assist</span><span>Dashboard</span><span>ESP32</span><span>Barreres IR</span></div>
+  <figure class="media hero-foto"><img src="../../futbolin/media/partida.webp" width="1600" height="900" alt="El futbolí en plena partida, amb la tauleta al costat marcant 2-1"></figure>
+</header>
+
+<section class="alt">
+  <div class="wrap">
+    <p class="num">01</p>
+    <h2>Què fa</h2>
+    <div class="narrow">
+      <p>Es juga amb 11 bolles i guanya qui arriba a 6. Amb 5-5, la darrera bolla es tira al centre: és <b>«la bona»</b>. L'ESP32 coneix aquestes regles i publica la fase de la partida a <code>sensor.futbolin_fase</code>. Tota la resta (marcador, so i llums) reacciona a aquesta fase.</p>
+    </div>
+    <div class="momentos">
+      <div class="momento"><b>Sortida</b><p>«Nova partida» per veu. Marcador a zero i el locutor presenta el clàssic.</p><code>normal</code></div>
+      <div class="momento"><b>Gol</b><p>Suma tot sol. Ona de llum del color de l'equip i una frase del locutor.</p><code>event.futbolin_gol</code></div>
+      <div class="momento"><b>Bolla de partit</b><p>En arribar a 5, les tires respiren del color de qui la té.</p><code>bola_partido_a</code></div>
+      <div class="momento oro"><b>La bona</b><p>5-5: duel d'ones, batec daurat i cartell al marcador.</p><code>la_buena</code></div>
+      <div class="momento"><b>Victòria</b><p>Festa de llums i pantalla del guanyador. Els gols que sobren ja no compten.</p><code>fin_a</code></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="num">02</p>
+    <h2>Un Córdoba de tota la vida</h2>
+    <div class="dos">
+      <div>
+        <p>És un futbolí Córdoba antic, negre i restaurat. Això va fixar les regles del muntatge:</p>
+        <ul class="puntos">
+          <li><b>Per fora, igual que sempre.</b> Sense pantalles aferrades ni botons nous. L'únic que es veu és un interruptor general, per davall.</li>
+          <li><b>La porteria no es toca.</b> La bolla és massissa i surt disparada: qualsevol sensor dins la porteria acabaria romput o tornant la bolla al camp.</li>
+          <li><b>Sense cables mentre es juga.</b> Tot va amb bateria.</li>
+          <li><b>Sense botons al futbolí.</b> Tot es maneja des de Home Assistant.</li>
+        </ul>
+        <p class="nota">L'àbac de comptes vermells i blaus continua al seu lloc, per si de cas.</p>
+      </div>
+      <figure class="media"><img src="../../futbolin/media/futbolin.webp" width="1600" height="900" alt="El futbolí Córdoba restaurat, negre, amb els ninots blancs i granats" loading="lazy"><figcaption>El Córdoba, ja restaurat. Per fora no es veu res de nou.</figcaption></figure>
+    </div>
+    <div class="grid-media tres">
+      <figure class="media"><img src="../../futbolin/media/placa.webp" width="1600" height="900" alt="Placa de llautó de la Delegació d'Indústria de Barcelona: marca Justo A. Córdoba, futbol de saló, tipus taula, aprovat el 1950" loading="lazy"><figcaption>La placa original: «fútbol de salón», tipus taula, aprovat per la Dirección General de Seguridad el 1950.</figcaption></figure>
+      <figure class="media"><img src="../../futbolin/media/antes.webp" width="1600" height="1200" alt="El mateix futbolí abans de restaurar-lo, pintat de vermell i amb els ninots gastats" loading="lazy"><figcaption>Així estava el 2022, abans de restaurar-lo.</figcaption></figure>
+      <figure class="media"><img src="../../futbolin/media/antes-detalle.webp" width="1600" height="1200" alt="Detall dels ninots abans de la restauració, amb la pintura gastada" loading="lazy"><figcaption>Els ninots, amb dècades de partits a sobre.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <p class="num">03</p>
+    <h2>Com sap que és gol?</h2>
+    <div class="narrow">
+      <p>L'intuïtiu seria mirar a la porteria, però és millor mirar <b>després</b>. Quan la bolla entra, cau per una ranura a un carril de fusta que la du rodolant fins al calaix. Allà ja no va a cent per hora: rodola a poc a poc i sempre pel mateix camí.</p>
+      <p>A cada carril hi ha una <b>barrera d'infrarojos</b>, amb un emissor a un costat i un receptor al davant. Quan la bolla passa, talla el feix unes desenes de mil·lisegons, i això és un gol.</p>
+    </div>
+
+    <div class="diagrama" role="img" aria-label="Vista des de dalt del carril: la bolla rodola entre dues falques de fusta, talla el feix infraroig i suma un gol">
+      <svg viewBox="0 0 720 230">
+        <text class="tit" x="20" y="28">El carril, vist des de dalt</text>
+        <rect x="20" y="60" width="680" height="12" fill="#3a2a1c"/>
+        <rect x="20" y="168" width="680" height="12" fill="#3a2a1c"/>
+        <rect x="20" y="72" width="680" height="96" fill="#2a1f15"/>
+        <polygon points="250,72 360,72 360,96" fill="#8a6a44"/>
+        <polygon points="250,168 360,168 360,144" fill="#8a6a44"/>
+        <rect x="362" y="74" width="16" height="20" rx="3" fill="#20242f" stroke="#9aa0b2"/>
+        <rect x="362" y="146" width="16" height="20" rx="3" fill="#20242f" stroke="#9aa0b2"/>
+        <line class="haz" x1="370" y1="94" x2="370" y2="146"/>
+        <g class="bola-carril"><circle cx="80" cy="120" r="17" fill="#e8e2d2"/></g>
+        <text class="mas-uno" x="392" y="58">+1</text>
+        <text class="suave" x="388" y="88">Emissor IR</text>
+        <text class="suave" x="388" y="162">Receptor</text>
+        <text class="suave" x="150" y="208">Falques de fusta aferrades amb cola: cada sensor queda a cobert darrere d'una</text>
+        <text class="suave" x="24" y="52">← ve de la porteria</text>
+        <text class="suave" x="560" y="52">va al calaix →</text>
+      </svg>
+    </div>
+
+    <h3>El menys intrusiu possible</h3>
+    <div class="ventajas">
+      <div class="ventaja"><b>Zero forats</b><p>Dues falques de fusta aferrades amb cola dins el carril. No s'ha foradat ni la porteria ni el carril.</p></div>
+      <div class="ventaja"><b>Es lleva</b><p>Les falques es desaferren i els sensors van amb connectors. El futbolí torna a estar com abans.</p></div>
+      <div class="ventaja"><b>Fora del camí</b><p>Cada sensor està a cobert darrere la seva falca. La bolla mai no el toca i la rampa la guia sense frenar-la.</p></div>
+      <div class="ventaja"><b>No s'escapa</b><p>El feix travessa el carril de paret a paret, així que la bolla el talla passi per on passi.</p></div>
+    </div>
+
+    <h3>Què fa el firmware</h3>
+    <ul class="puntos narrow">
+      <li>Detecció per flanc amb interrupció, i 400 ms de bloqueig després de cada gol per no comptar rebots.</li>
+      <li>Si un feix passa més de 2 s tapat, avisa d'<b>embús</b> (<code>binary_sensor.futbolin_atasco_a</code>).</li>
+      <li><b>Autotest</b> en arrencar: cada emissor va alimentat des del seu propi GPIO. El firmware l'apaga i comprova que el receptor passa a «tapat». Si falla, les tires es posen en vermell.</li>
+      <li>Cada tall queda a <code>sensor.futbolin_ultimo_corte</code> amb la seva durada i què se n'ha fet (gol, soroll o rebot). El registre d'HA guarda així el diari de la partida.</li>
+    </ul>
+    <figure class="lamina"><a href="../../futbolin/diagramas/barrera-ir.svg" aria-label="Obrir el diagrama a mida completa"><img src="../../futbolin/diagramas/barrera-ir.svg" width="760" height="285" alt="Tall del carril amb l'emissor i el receptor a cada costat de la bolla, i el senyal al GPIO 32: el feix es talla uns 35 ms amb el gol, el bloqueig de 400 ms ignora els rebots i els talls molt curts es descarten com a soroll" loading="lazy"></a><figcaption>La barrera vista de front i el senyal que arriba a l'ESP32 amb un gol. Els diagrames són en castellà.</figcaption></figure>
+
+    <div class="grid-media dos">
+      <figure class="media"><img src="../../futbolin/media/carril.webp" width="1600" height="900" alt="El carril de recollida amb les dues falques de fusta aferrades a les parets i els sensors darrere" loading="lazy"><figcaption>Les dues falques al carril, amb un sensor darrere cada una.</figcaption></figure>
+      <figure class="media vertical"><video src="../../futbolin/media/carril.mp4" poster="../../futbolin/media/carril-poster.jpg" width="720" height="1280" autoplay muted loop playsinline preload="metadata" aria-label="Una bolla rodola pel carril i passa entre les dues falques"></video><figcaption>La bolla passa entre les falques i talla el feix. A velocitat real.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="num">04</p>
+    <h2>Arquitectura</h2>
+    <div class="narrow">
+      <p>La decisió clau: <b>la partida la du l'ESP32, no Home Assistant.</b> Compta, calcula la fase i la desa a la flash (<code>restore_value</code>) per no perdre-la en un reinici o una actualització OTA.</p>
+      <p>Des d'allà avisa per dos camins. A HA, per l'API nativa d'ESPHome. A WLED, <b>directament</b> per l'API JSON (<code>{"ps": 3}</code>), sense passar per HA, perquè l'efecte surti a l'instant.</p>
+    </div>
+
+    <div class="diagrama" id="flujo" role="img" aria-label="Flux: la barrera avisa l'ESP32, que envia l'efecte a WLED per l'API JSON i l'estat a Home Assistant per l'API nativa d'ESPHome; Home Assistant el mostra a la tauleta">
+      <svg viewBox="0 0 760 300">
+        <defs><marker id="punta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#9aa0b2"/></marker></defs>
+        <rect class="caja" x="20" y="120" width="130" height="64" rx="10"/>
+        <text x="85" y="148" text-anchor="middle">Barreres IR</text><text class="suave" x="85" y="168" text-anchor="middle">GPIO + interrupció</text>
+        <rect class="caja oro" x="210" y="112" width="150" height="80" rx="10"/>
+        <text x="285" y="142" text-anchor="middle">ESP32 · ESPHome</text><text class="suave" x="285" y="162" text-anchor="middle">du la partida</text><text class="suave" x="285" y="178" text-anchor="middle">estat a la flash</text>
+        <g class="nodo-red">
+          <rect class="caja teal" x="440" y="24" width="150" height="64" rx="10"/>
+          <text x="515" y="52" text-anchor="middle">WLED</text><text class="suave" x="515" y="72" text-anchor="middle">2 tires · presets</text>
+          <rect class="caja teal" x="440" y="212" width="150" height="64" rx="10"/>
+          <text x="515" y="240" text-anchor="middle">Home Assistant</text><text class="suave" x="515" y="260" text-anchor="middle">dashboard · Assist</text>
+          <rect class="caja" x="620" y="212" width="124" height="64" rx="10"/>
+          <text x="682" y="240" text-anchor="middle">Tauleta</text><text class="suave" x="682" y="260" text-anchor="middle">marcador i veu</text>
+        </g>
+        <path class="flecha" d="M150 152H206"/>
+        <path class="flecha wifi" d="M360 130C400 100 400 56 436 56"/>
+        <path class="flecha wifi" d="M360 174C400 204 400 244 436 244"/>
+        <path class="flecha wifi" d="M590 244H616"/>
+        <circle class="pulso" r="5"><animateMotion dur="2.4s" repeatCount="indefinite" path="M20 152H210"/></circle>
+        <circle class="pulso wifi" r="5"><animateMotion dur="2.4s" begin=".8s" repeatCount="indefinite" path="M360 130C400 100 400 56 440 56"/></circle>
+        <circle class="pulso wifi" r="5"><animateMotion dur="2.4s" begin=".8s" repeatCount="indefinite" path="M360 174C400 204 400 244 440 244"/></circle>
+        <text class="suave" x="404" y="36" text-anchor="end">API JSON de WLED</text>
+        <text class="suave" x="404" y="290" text-anchor="end">API nativa d'ESPHome</text>
+        <g class="aviso-red"><rect x="200" y="206" width="170" height="44" rx="8" fill="#2a1410" stroke="#c8553d"/><text x="285" y="226" text-anchor="middle">Sense WiFi: no s'atura</text><text class="suave" x="285" y="242" text-anchor="middle">en tornar, marcador al dia</text></g>
+      </svg>
+      <div style="margin-top:12px; text-align:center"><button id="corta-wifi" aria-pressed="false">Talla la WiFi</button></div>
+    </div>
+    <p class="nota">Si cau la WiFi o Home Assistant, l'ESP32 segueix comptant, i en tornar la tauleta mostra el marcador correcte. HA no du cap lògica de la partida: només mostra les entitats i prem els botons.</p>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <p class="num">05</p>
+    <h2>El que veu Home Assistant</h2>
+    <div class="narrow">
+      <p>El dispositiu ESPHome es diu <code>futbolin</code>, així que totes les entitats queden com <code>&lt;domini&gt;.futbolin_*</code>. Els equips són A i B: a ca nostra, A és el Madrid i B el Barça.</p>
+    </div>
+    <h3>Estat</h3>
+    <div class="tabla"><table>
+      <tr><th>Entitat</th><th>Què és</th></tr>
+      <tr><td><code>sensor.futbolin_goles_a</code> / <code>_b</code></td><td>Gols de cada equip, de 0 a 6</td></tr>
+      <tr><td><code>sensor.futbolin_fase</code></td><td><code>reposo</code>, <code>normal</code>, <code>bola_partido_a</code>/<code>_b</code>, <code>la_buena</code>, <code>fin_a</code>/<code>_b</code></td></tr>
+      <tr><td><code>event.futbolin_gol</code></td><td><code>gol_a</code> o <code>gol_b</code>, només amb els gols que veuen les barreres. És el disparador natural de les automatitzacions</td></tr>
+      <tr><td><code>sensor.futbolin_bateria</code></td><td>% de bateria, calculat amb la tensió més alta dels darrers 10 min perquè els pics de les tires no el facin botar</td></tr>
+      <tr><td><code>binary_sensor.futbolin_autotest</code></td><td>Resultat de l'autotest de les barreres</td></tr>
+    </table></div>
+    <h3>Controls</h3>
+    <div class="tabla"><table>
+      <tr><th>Entitat</th><th>Què fa</th></tr>
+      <tr><td><code>button.futbolin_nueva_partida</code></td><td>0-0 i a jugar</td></tr>
+      <tr><td><code>button.futbolin_gol_a_mas</code> / <code>_menos</code></td><td>Corregeix el marcador. La fase es recalcula: un −1 des de 6-5 torna la bolla de partit</td></tr>
+      <tr><td><code>button.futbolin_anular_partida</code></td><td>Torna a <code>reposo</code></td></tr>
+      <tr><td><code>switch.futbolin_efectos_luz</code></td><td>Activa o desactiva els efectes de les tires</td></tr>
+      <tr><td><code>number.futbolin_luces_bateria_minima</code></td><td>% de bateria per davall del qual es tallen els llums</td></tr>
+      <tr><td><code>switch.futbolin_modo_enchufado</code></td><td>Per jugar amb una font de 12 V en lloc de bateries: amaga la bateria i silencia els seus avisos</td></tr>
+    </table></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="num">06</p>
+    <h2>El marcador: un dashboard amb locutor</h2>
+    <div class="dos">
+      <div>
+        <p>El marcador és un dashboard d'HA fet amb una sola <code>button-card</code> amb HTML propi: dígits de matriu de punts, la columna de les 11 bolles amb l'ordre dels gols, l'animació de «GOL!», el cartell de «la bona» i la pantalla del guanyador. Mentre està obert, HA lleva l'estalvi de pantalla de la tauleta.</p>
+        <h3>El locutor</h3>
+        <p>Cada gol el canta un locutor que segueix el partit: el primer gol, l'empat, la ratxa, la remuntada, la bolla de partit, el gol que salva el partit… Són <b>348 locucions</b> generades per endavant amb una veu TTS d'OpenAI, en castellà. HA calcula el moment del partit com a atribut d'un sensor i el dashboard tria una frase a l'atzar, sense repetir l'anterior.</p>
+      </div>
+      <figure class="media"><img src="../../futbolin/media/tablet.webp" width="1600" height="900" alt="La tauleta amb el marcador a 0-0, recolzada al futbolí devora l'àbac" loading="lazy"><figcaption>El marcador a la tauleta, devora l'àbac de tota la vida.</figcaption></figure>
+    </div>
+    <div class="narrow">
+      <h3>El truc de la música</h3>
+      <p>Amb música sonant a la tauleta, el locutor l'ha d'abaixar i no aturar-la. Android només abaixa la música si el so nou demana el focus d'àudio «temporal, es pot abaixar», i el WebView només el demana així per a mitjans de <b>menys de 5 s</b>. Amb una locució més llarga, la música es pausava i no tornava.</p>
+      <p>La solució: mentre parla el locutor, sona en bucle un <code>&lt;audio&gt;</code> amb 1 s de silenci, que demana el focus curt. La veu va a part per <b>Web Audio</b>, que no demana focus. En acabar, es buida el <code>src</code> del silenci i es crida <code>load()</code>: amb <code>pause()</code> tot sol, el focus no es deixa anar i la música es queda baixa.</p>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <p class="num">07</p>
+    <h2>Control per veu amb Assist</h2>
+    <div class="dos">
+      <div>
+        <p>El futbolí no té botons: tot es fa amb <b>Assist</b> des de la tauleta. Les frases són disparadors de conversa d'una automatització que premen els botons d'ESPHome. Es resolen en local abans d'arribar al LLM, així que no cal exposar el futbolí a Assist.</p>
+<pre><span class="k">triggers</span>:
+  - <span class="k">trigger</span>: conversation
+    <span class="k">command</span>:
+      - <span class="s">"gol del Madrid"</span>
+      - <span class="s">"gol de los blancos"</span>
+<span class="k">actions</span>:
+  - <span class="k">action</span>: button.press
+    <span class="k">target</span>:
+      <span class="k">entity_id</span>: button.futbolin_gol_a_mas</pre>
+      </div>
+      <div>
+        <div class="tabla"><table>
+          <tr><th>Frase</th><th>Acció</th></tr>
+          <tr><td>«Nueva partida», «echamos una»</td><td>Nova partida i marcador a la tauleta</td></tr>
+          <tr><td>«Gol del Barça»</td><td>+1</td></tr>
+          <tr><td>«Ese no vale el del Madrid»</td><td>−1</td></tr>
+          <tr><td>«¿Cómo vamos?»</td><td>Respon amb el marcador i la fase</td></tr>
+          <tr><td>«Anula la partida»</td><td>Tornada a repòs</td></tr>
+          <tr><td>«Pon la música»</td><td>Música a la tauleta</td></tr>
+        </table></div>
+        <p class="nota">Les frases són en castellà, l'idioma de l'Assist de casa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="num">08</p>
+    <h2>Llums amb WLED</h2>
+    <div class="narrow">
+      <p>Hi ha una tira LED a cada costat del camp (WS2811 de 12 V, 28 píxels cada una), mogudes per un controlador Gledopto amb WLED. Cada tira és un segment. Amb bateria gasten massa per anar enceses tota la partida, així que només fan efectes d'uns segons i tornen a apagar-se totes soles.</p>
+      <p>Cada moment és un preset (o una playlist de presets) que l'ESP32 llança per l'API JSON. Els presets surten d'un script generador, així que es versionen amb la resta del codi.</p>
+    </div>
+    <figure class="lamina"><a href="../../futbolin/diagramas/tiras-conexion.svg" aria-label="Obrir el diagrama a mida completa"><img src="../../futbolin/diagramas/tiras-conexion.svg" width="760" height="242" alt="El bus de 12 V alimenta el Gledopto amb WLED, que té dues sortides: la tira A al GPIO 16 (píxels 0 a 27) i la tira B al GPIO 2 (píxels 28 a 55)" loading="lazy"></a><figcaption>Cada tira va a la seva pròpia sortida del Gledopto i és un segment de WLED.</figcaption></figure>
+    <div class="tabla"><table>
+      <tr><th>Preset</th><th>Quan</th><th>Què fa</th></tr>
+      <tr><td><code>gol_a</code> / <code>gol_b</code></td><td>Gol</td><td>Ona del color de l'equip cap a la porteria contrària i focs artificials, 3 s</td></tr>
+      <tr><td><code>bola_partido_*</code></td><td>Un equip arriba a 5</td><td>Les tires respiren del seu color 8 s</td></tr>
+      <tr><td><code>la_buena</code></td><td>5-5</td><td>Duel d'ones, cada una des de la seva porteria, i batec daurat</td></tr>
+      <tr><td><code>fin_a</code> / <code>fin_b</code></td><td>Gol que guanya</td><td>Festa del color del guanyador 10 s</td></tr>
+      <tr><td><code>aviso</code></td><td>Embús o autotest fallit</td><td>Vermell fix fins que es resol</td></tr>
+    </table></div>
+    <p class="nota">Amb la bateria baixa, l'ESP32 talla els llums tot sol: si el % passa 60 s per davall de <code>number.futbolin_luces_bateria_minima</code>, els apaga, i no els torna a encendre fins que la bateria puja 10 punts per damunt del mínim. Aquest marge evita que el tall reboti, perquè els mateixos efectes fan baixar la tensió.</p>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <p class="num">09</p>
+    <h2>Cablejat i bateries</h2>
+    <div class="narrow">
+      <p>Tota l'electrònica va en un panell de contraxapat devora les bateries, a la part fixa del moble: l'ESP32, el buck que baixa de 12 a 5 V, una regleta que fa de bus de 12 V i la interfície de les barreres. Les tires prenen els 12 V directament.</p>
+      <p>A cada carril arriba un cable de 5 fils que acaba en dos connectors JST-SM, un per al receptor i un altre per a l'emissor. Les resistències de pull-up van soldades a l'extrem del cable, devora l'ESP32, i un divisor de 100k/20k du els 12 V al GPIO 34 per calcular el % de bateria.</p>
+    </div>
+    <figure class="lamina"><a href="../../futbolin/diagramas/cableado-general.svg" aria-label="Obrir el diagrama a mida completa"><img src="../../futbolin/diagramas/cableado-general.svg" width="760" height="440" alt="Esquema general: dues bateries amb el seu fusible, l'interruptor, el bus de 12 V, el Gledopto amb les tires, el buck a 5 V, l'ESP32 i la interfície amb els cables dels dos carrils" loading="lazy"></a><figcaption>L'esquema general. En vermell, els +12 V.</figcaption></figure>
+    <h3>L'ESP32 i les barreres</h3>
+    <figure class="lamina"><a href="../../futbolin/diagramas/placa-interfaz.svg" aria-label="Obrir el diagrama a mida completa"><img src="../../futbolin/diagramas/placa-interfaz.svg" width="760" height="400" alt="Connexió d'una barrera a l'ESP32: 3,3 V i GND per regletes, el senyal del receptor al GPIO 32 amb pull-up de 5,1 kΩ i 1 kΩ en sèrie, l'emissor al GPIO 14 i el divisor de bateria al GPIO 34" loading="lazy"></a><figcaption>Com es connecta una barrera a l'ESP32, amb el divisor de bateria al GPIO 34.</figcaption></figure>
+    <h3>Les bateries</h3>
+    <div class="narrow">
+      <p>Són dues bateries de plom de 12 V i 7 Ah en paral·lel, cada una amb el seu fusible de 5 A, i un interruptor general per davall del moble. Segons els comptes, donen per a <b>unes 7 hores</b> de joc (falta mesurar-ho). Per jugar endollat, es lleven les bateries i es connecta una font de 12 V al seu lloc.</p>
+    </div>
+    <figure class="lamina"><a href="../../futbolin/diagramas/alimentacion-cableado.svg" aria-label="Obrir el diagrama a mida completa"><img src="../../futbolin/diagramas/alimentacion-cableado.svg" width="760" height="390" alt="Cablejat de les bateries: cada una amb el seu portafusibles de 5 A, els dos positius a l'interruptor i d'allà a les regletes de 12 V, que reparteixen a Gledopto, buck i interfície; els negatius a la regleta de GND" loading="lazy"></a><figcaption>Cada bateria du el seu fusible devora el born i els dos positius s'uneixen a l'interruptor.</figcaption></figure>
+    <div class="grid-media dos">
+      <figure class="media"><img src="../../futbolin/media/interior.webp" width="1600" height="900" alt="El futbolí amb el tauler de joc abatut i l'electrònica dins el moble" loading="lazy"><figcaption>Amb el tauler aixecat: tot cap dins el moble.</figcaption></figure>
+      <figure class="media"><img src="../../futbolin/media/electronica.webp" width="1600" height="900" alt="La caixa de l'electrònica, amb l'ESP32 a la seva placa de borns, el buck i les connexions" loading="lazy"><figcaption>L'ESP32 a la seva placa de borns, el buck i les connexions de les barreres.</figcaption></figure>
+      <figure class="media"><img src="../../futbolin/media/baterias.webp" width="1600" height="900" alt="Les dues bateries de plom i el controlador Gledopto dins una caixa blava" loading="lazy"><figcaption>Les dues bateries, amb els seus fusibles, i el Gledopto.</figcaption></figure>
+      <figure class="media"><img src="../../futbolin/media/interruptor.webp" width="1600" height="900" alt="L'interruptor general, un polsador rodó amb anell vermell cargolat per davall del moble" loading="lazy"><figcaption>L'interruptor general: tot s'encén des de davall del moble.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="cierre">
+  <div class="wrap narrow">
+    <h2>El codi</h2>
+    <p>Tot és a GitHub, amb codi obert: el firmware d'ESPHome, el paquet de Home Assistant amb el dashboard del marcador i les frases d'Assist, els presets de WLED amb el seu generador, el generador de les locucions i els diagrames.</p>
+    <div class="enlaces">
+      <a href="https://github.com/ars-magna-lab/futbolin-home-assistant" rel="noopener">Codi a GitHub →</a>
+      <a href="https://www.youtube.com/@arsmagna_lab" rel="noopener">Canal de YouTube →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© Edu Herraiz · <a href="../../ca/">Ars Magna Lab</a></div>
+</footer>
+
+<script>
+document.getElementById("corta-wifi").addEventListener("click", e => {
+  const on = document.getElementById("flujo").classList.toggle("sin-wifi");
+  e.target.setAttribute("aria-pressed", on);
+  e.target.textContent = on ? "Torna la WiFi" : "Talla la WiFi";
+});
+</script>
+</body>
+</html>
