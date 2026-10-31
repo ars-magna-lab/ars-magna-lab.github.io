@@ -51,7 +51,7 @@
       <div class="momento"><b>Kick-off</b><p>“New game” by voice. Scoreboard back to zero and the commentator introduces the clásico.</p><code>normal</code></div>
       <div class="momento"><b>Goal</b><p>Counted automatically. A wave of light in the team's colour and a line from the commentator.</p><code>event.futbolin_gol</code></div>
       <div class="momento"><b>Match point</b><p>When a team reaches 5, the strips breathe in its colour.</p><code>bola_partido_a</code></div>
-      <div class="momento oro"><b>The decider</b><p>5-5: duelling waves, a golden heartbeat and a banner on the scoreboard.</p><code>la_buena</code></div>
+      <div class="momento oro"><b>The decider</b><p>5-5: a golden heartbeat that speeds up and a banner on the scoreboard.</p><code>la_buena</code></div>
       <div class="momento"><b>Victory</b><p>A light party and the winner's screen. Extra goals no longer count.</p><code>fin_a</code></div>
     </div>
   </div>
@@ -190,7 +190,7 @@
       <tr><td><code>sensor.futbolin_goles_a</code> / <code>_b</code></td><td>Goals for each team, from 0 to 6</td></tr>
       <tr><td><code>sensor.futbolin_fase</code></td><td><code>reposo</code> (idle), <code>normal</code>, <code>bola_partido_a</code>/<code>_b</code> (match point), <code>la_buena</code> (decider), <code>fin_a</code>/<code>_b</code> (end)</td></tr>
       <tr><td><code>event.futbolin_gol</code></td><td><code>gol_a</code> or <code>gol_b</code>, only for goals seen by the beams. It's the natural trigger for automations</td></tr>
-      <tr><td><code>sensor.futbolin_bateria</code></td><td>Battery %, computed from the highest voltage in the last 10 min so the strips' current spikes don't make it jump</td></tr>
+      <tr><td><code>sensor.futbolin_bateria</code></td><td>% left to use (0 % is half charge, below which lead-acid shouldn't go), computed from the highest voltage in the last 10 min so the strips' current spikes don't make it jump</td></tr>
       <tr><td><code>binary_sensor.futbolin_autotest</code></td><td>Result of the beams' self-test</td></tr>
     </table></div>
     <h3>Controls</h3>
@@ -200,7 +200,7 @@
       <tr><td><code>button.futbolin_gol_a_mas</code> / <code>_menos</code></td><td>Corrects the score. The phase is recalculated: a −1 from 6-5 brings match point back</td></tr>
       <tr><td><code>button.futbolin_anular_partida</code></td><td>Back to <code>reposo</code></td></tr>
       <tr><td><code>switch.futbolin_efectos_luz</code></td><td>Turns the strip effects on or off</td></tr>
-      <tr><td><code>number.futbolin_luces_bateria_minima</code></td><td>Battery % below which the lights are cut</td></tr>
+      <tr><td><code>number.futbolin_luces_bateria_minima</code></td><td>Battery % below which the lights are cut (20 % by default)</td></tr>
       <tr><td><code>switch.futbolin_modo_enchufado</code></td><td>To play from a 12 V power supply instead of batteries: hides the battery and silences its warnings</td></tr>
     </table></div>
   </div>
@@ -272,11 +272,11 @@
       <tr><th>Preset</th><th>When</th><th>What it does</th></tr>
       <tr><td><code>gol_a</code> / <code>gol_b</code></td><td>Goal</td><td>A wave in the team's colour towards the opposing goal and fireworks, 3 s</td></tr>
       <tr><td><code>bola_partido_*</code></td><td>A team reaches 5</td><td>The strips breathe in its colour for 8 s</td></tr>
-      <tr><td><code>la_buena</code></td><td>5-5</td><td>Duelling waves, each from its own goal, and a golden heartbeat</td></tr>
+      <tr><td><code>la_buena</code></td><td>5-5</td><td>A golden heartbeat that speeds up for 1 min and holds until the deciding goal</td></tr>
       <tr><td><code>fin_a</code> / <code>fin_b</code></td><td>Winning goal</td><td>A party in the winner's colour, 10 s</td></tr>
       <tr><td><code>aviso</code></td><td>Jam or failed self-test</td><td>Solid red until it's resolved</td></tr>
     </table></div>
-    <p class="nota">On low battery, the ESP32 cuts the lights by itself: if the % stays below <code>number.futbolin_luces_bateria_minima</code> for 60 s, it switches them off, and doesn't turn them back on until the battery is 10 points above the minimum. That margin stops the cut-off from bouncing, because the effects themselves pull the voltage down.</p>
+    <p class="nota">On low battery, the ESP32 cuts the lights by itself: if the % stays below <code>number.futbolin_luces_bateria_minima</code> for 60 s, it switches them off and goals keep being counted. It doesn't turn them back on until the battery is 20 points above the minimum. That margin stops the cut-off from bouncing, because the effects themselves pull the voltage down.</p>
   </div>
 </section>
 
@@ -294,6 +294,7 @@
     <h3>The batteries</h3>
     <div class="narrow">
       <p>Two 12 V 7 Ah lead-acid batteries in parallel, each with its own 5 A fuse, and a main switch under the cabinet. On paper they're good for <b>about 7 hours</b> of play (still to be measured). To play plugged in, you take the batteries out and connect a 12 V power supply in their place.</p>
+      <p>The % on the scoreboard is what's left to use: 100 % is a full battery and 0 % is half charge, below which lead-acid shouldn't go. Home Assistant sends a phone reminder when they need charging, including if the table hasn't been switched on for two weeks, and a reminder to switch it off if it's been on for 30 minutes with no play.</p>
     </div>
     <figure class="lamina"><a href="@@ROOT@@futbolin/diagramas/alimentacion-cableado.svg" aria-label="Open the diagram full size"><img src="@@ROOT@@futbolin/diagramas/alimentacion-cableado.svg" width="760" height="390" alt="Battery wiring: each one with its 5 A fuse holder, both positives to the switch and from there to the 12 V terminals, which feed the Gledopto, the buck converter and the interface; the negatives to the GND terminal" loading="lazy"></a><figcaption>Each battery has its fuse next to the terminal and both positives join at the switch.</figcaption></figure>
     <div class="grid-media dos">

@@ -55,7 +55,7 @@
       <div class="momento"><b>Sortida</b><p>«Nova partida» per veu. Marcador a zero i el locutor presenta el clàssic.</p><code>normal</code></div>
       <div class="momento"><b>Gol</b><p>Suma tot sol. Ona de llum del color de l'equip i una frase del locutor.</p><code>event.futbolin_gol</code></div>
       <div class="momento"><b>Bolla de partit</b><p>En arribar a 5, les tires respiren del color de qui la té.</p><code>bola_partido_a</code></div>
-      <div class="momento oro"><b>La bona</b><p>5-5: duel d'ones, batec daurat i cartell al marcador.</p><code>la_buena</code></div>
+      <div class="momento oro"><b>La bona</b><p>5-5: batec daurat que s'accelera i cartell al marcador.</p><code>la_buena</code></div>
       <div class="momento"><b>Victòria</b><p>Festa de llums i pantalla del guanyador. Els gols que sobren ja no compten.</p><code>fin_a</code></div>
     </div>
   </div>
@@ -194,7 +194,7 @@
       <tr><td><code>sensor.futbolin_goles_a</code> / <code>_b</code></td><td>Gols de cada equip, de 0 a 6</td></tr>
       <tr><td><code>sensor.futbolin_fase</code></td><td><code>reposo</code>, <code>normal</code>, <code>bola_partido_a</code>/<code>_b</code>, <code>la_buena</code>, <code>fin_a</code>/<code>_b</code></td></tr>
       <tr><td><code>event.futbolin_gol</code></td><td><code>gol_a</code> o <code>gol_b</code>, només amb els gols que veuen les barreres. És el disparador natural de les automatitzacions</td></tr>
-      <tr><td><code>sensor.futbolin_bateria</code></td><td>% de bateria, calculat amb la tensió més alta dels darrers 10 min perquè els pics de les tires no el facin botar</td></tr>
+      <tr><td><code>sensor.futbolin_bateria</code></td><td>% que queda per gastar (0 % és la meitat de la càrrega, d'on no convé baixar el plom), calculat amb la tensió més alta dels darrers 10 min perquè els pics de les tires no el facin botar</td></tr>
       <tr><td><code>binary_sensor.futbolin_autotest</code></td><td>Resultat de l'autotest de les barreres</td></tr>
     </table></div>
     <h3>Controls</h3>
@@ -204,7 +204,7 @@
       <tr><td><code>button.futbolin_gol_a_mas</code> / <code>_menos</code></td><td>Corregeix el marcador. La fase es recalcula: un −1 des de 6-5 torna la bolla de partit</td></tr>
       <tr><td><code>button.futbolin_anular_partida</code></td><td>Torna a <code>reposo</code></td></tr>
       <tr><td><code>switch.futbolin_efectos_luz</code></td><td>Activa o desactiva els efectes de les tires</td></tr>
-      <tr><td><code>number.futbolin_luces_bateria_minima</code></td><td>% de bateria per davall del qual es tallen els llums</td></tr>
+      <tr><td><code>number.futbolin_luces_bateria_minima</code></td><td>% de bateria per davall del qual es tallen els llums (20 % per defecte)</td></tr>
       <tr><td><code>switch.futbolin_modo_enchufado</code></td><td>Per jugar amb una font de 12 V en lloc de bateries: amaga la bateria i silencia els seus avisos</td></tr>
     </table></div>
   </div>
@@ -276,11 +276,11 @@
       <tr><th>Preset</th><th>Quan</th><th>Què fa</th></tr>
       <tr><td><code>gol_a</code> / <code>gol_b</code></td><td>Gol</td><td>Ona del color de l'equip cap a la porteria contrària i focs artificials, 3 s</td></tr>
       <tr><td><code>bola_partido_*</code></td><td>Un equip arriba a 5</td><td>Les tires respiren del seu color 8 s</td></tr>
-      <tr><td><code>la_buena</code></td><td>5-5</td><td>Duel d'ones, cada una des de la seva porteria, i batec daurat</td></tr>
+      <tr><td><code>la_buena</code></td><td>5-5</td><td>Batec daurat que s'accelera durant 1 min i es queda fix fins al gol que decideix</td></tr>
       <tr><td><code>fin_a</code> / <code>fin_b</code></td><td>Gol que guanya</td><td>Festa del color del guanyador 10 s</td></tr>
       <tr><td><code>aviso</code></td><td>Embús o autotest fallit</td><td>Vermell fix fins que es resol</td></tr>
     </table></div>
-    <p class="nota">Amb la bateria baixa, l'ESP32 talla els llums tot sol: si el % passa 60 s per davall de <code>number.futbolin_luces_bateria_minima</code>, els apaga, i no els torna a encendre fins que la bateria puja 10 punts per damunt del mínim. Aquest marge evita que el tall reboti, perquè els mateixos efectes fan baixar la tensió.</p>
+    <p class="nota">Amb la bateria baixa, l'ESP32 talla els llums tot sol: si el % passa 60 s per davall de <code>number.futbolin_luces_bateria_minima</code>, els apaga i els gols es continuen comptant. No els torna a encendre fins que la bateria puja 20 punts per damunt del mínim. Aquest marge evita que el tall reboti, perquè els mateixos efectes fan baixar la tensió.</p>
   </div>
 </section>
 
@@ -298,6 +298,7 @@
     <h3>Les bateries</h3>
     <div class="narrow">
       <p>Són dues bateries de plom de 12 V i 7 Ah en paral·lel, cada una amb el seu fusible de 5 A, i un interruptor general per davall del moble. Segons els comptes, donen per a <b>unes 7 hores</b> de joc (falta mesurar-ho). Per jugar endollat, es lleven les bateries i es connecta una font de 12 V al seu lloc.</p>
+      <p>El % del marcador és el que queda per gastar: 100 % és la bateria carregada i 0 % és la meitat de la càrrega, d'on no convé baixar el plom. Home Assistant avisa al mòbil quan toca carregar-les, també si el futbolí fa dues setmanes que no s'encén, i recorda apagar-lo si fa 30 minuts que està encès sense jugar.</p>
     </div>
     <figure class="lamina"><a href="../../futbolin/diagramas/alimentacion-cableado.svg" aria-label="Obrir el diagrama a mida completa"><img src="../../futbolin/diagramas/alimentacion-cableado.svg" width="760" height="390" alt="Cablejat de les bateries: cada una amb el seu portafusibles de 5 A, els dos positius a l'interruptor i d'allà a les regletes de 12 V, que reparteixen a Gledopto, buck i interfície; els negatius a la regleta de GND" loading="lazy"></a><figcaption>Cada bateria du el seu fusible devora el born i els dos positius s'uneixen a l'interruptor.</figcaption></figure>
     <div class="grid-media dos">

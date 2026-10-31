@@ -51,7 +51,7 @@
       <div class="momento"><b>Saque</b><p>«Nueva partida» por voz. Marcador a cero y el locutor presenta el clásico.</p><code>normal</code></div>
       <div class="momento"><b>Gol</b><p>Suma solo. Ola de luz del color del equipo y una frase del locutor.</p><code>event.futbolin_gol</code></div>
       <div class="momento"><b>Bola de partido</b><p>Al llegar a 5, las tiras respiran en el color de quien la tiene.</p><code>bola_partido_a</code></div>
-      <div class="momento oro"><b>La buena</b><p>5-5: duelo de olas, latido dorado y cartel en el marcador.</p><code>la_buena</code></div>
+      <div class="momento oro"><b>La buena</b><p>5-5: latido dorado que se acelera y cartel en el marcador.</p><code>la_buena</code></div>
       <div class="momento"><b>Victoria</b><p>Fiesta de luces y pantalla del ganador. Los goles que sobran ya no cuentan.</p><code>fin_a</code></div>
     </div>
   </div>
@@ -190,7 +190,7 @@
       <tr><td><code>sensor.futbolin_goles_a</code> / <code>_b</code></td><td>Goles de cada equipo, de 0 a 6</td></tr>
       <tr><td><code>sensor.futbolin_fase</code></td><td><code>reposo</code>, <code>normal</code>, <code>bola_partido_a</code>/<code>_b</code>, <code>la_buena</code>, <code>fin_a</code>/<code>_b</code></td></tr>
       <tr><td><code>event.futbolin_gol</code></td><td><code>gol_a</code> o <code>gol_b</code>, solo con los goles que ven las barreras. Es el disparador natural de las automatizaciones</td></tr>
-      <tr><td><code>sensor.futbolin_bateria</code></td><td>% de batería, calculado con la tensión más alta de los últimos 10 min para que los picos de las tiras no lo hagan saltar</td></tr>
+      <tr><td><code>sensor.futbolin_bateria</code></td><td>% que queda para gastar (0 % es la media carga, de donde no conviene bajar el plomo), calculado con la tensión más alta de los últimos 10 min para que los picos de las tiras no lo hagan saltar</td></tr>
       <tr><td><code>binary_sensor.futbolin_autotest</code></td><td>Resultado del autotest de las barreras</td></tr>
     </table></div>
     <h3>Controles</h3>
@@ -200,7 +200,7 @@
       <tr><td><code>button.futbolin_gol_a_mas</code> / <code>_menos</code></td><td>Corrige el marcador. La fase se recalcula: un −1 desde 6-5 devuelve la bola de partido</td></tr>
       <tr><td><code>button.futbolin_anular_partida</code></td><td>Vuelve a <code>reposo</code></td></tr>
       <tr><td><code>switch.futbolin_efectos_luz</code></td><td>Activa o desactiva los efectos de las tiras</td></tr>
-      <tr><td><code>number.futbolin_luces_bateria_minima</code></td><td>% de batería por debajo del cual se cortan las luces</td></tr>
+      <tr><td><code>number.futbolin_luces_bateria_minima</code></td><td>% de batería por debajo del cual se cortan las luces (20 % por defecto)</td></tr>
       <tr><td><code>switch.futbolin_modo_enchufado</code></td><td>Para jugar con una fuente de 12 V en lugar de baterías: oculta la batería y silencia sus avisos</td></tr>
     </table></div>
   </div>
@@ -271,11 +271,11 @@
       <tr><th>Preset</th><th>Cuándo</th><th>Qué hace</th></tr>
       <tr><td><code>gol_a</code> / <code>gol_b</code></td><td>Gol</td><td>Ola del color del equipo hacia la portería contraria y fuegos artificiales, 3 s</td></tr>
       <tr><td><code>bola_partido_*</code></td><td>Un equipo llega a 5</td><td>Las tiras respiran en su color 8 s</td></tr>
-      <tr><td><code>la_buena</code></td><td>5-5</td><td>Duelo de olas, cada una desde su portería, y latido dorado</td></tr>
+      <tr><td><code>la_buena</code></td><td>5-5</td><td>Latido dorado que se acelera durante 1 min y se queda fijo hasta el gol que decide</td></tr>
       <tr><td><code>fin_a</code> / <code>fin_b</code></td><td>Gol que gana</td><td>Fiesta del color del ganador 10 s</td></tr>
       <tr><td><code>aviso</code></td><td>Atasco o autotest fallido</td><td>Rojo fijo hasta que se resuelve</td></tr>
     </table></div>
-    <p class="nota">Con batería baja, el ESP32 corta las luces solo: si el % pasa 60 s por debajo de <code>number.futbolin_luces_bateria_minima</code>, las apaga, y no las vuelve a encender hasta que la batería sube 10 puntos por encima del mínimo. Ese margen evita que el corte rebote, porque los propios efectos hunden la tensión.</p>
+    <p class="nota">Con batería baja, el ESP32 corta las luces solo: si el % pasa 60 s por debajo de <code>number.futbolin_luces_bateria_minima</code>, las apaga y los goles se siguen contando. No las vuelve a encender hasta que la batería sube 20 puntos por encima del mínimo. Ese margen evita que el corte rebote, porque los propios efectos hunden la tensión.</p>
   </div>
 </section>
 
@@ -293,6 +293,7 @@
     <h3>Las baterías</h3>
     <div class="narrow">
       <p>Son dos baterías de plomo de 12 V y 7 Ah en paralelo, cada una con su fusible de 5 A, y un interruptor general por debajo del mueble. Según las cuentas, dan para <b>unas 7 horas</b> de juego (falta medirlo). Para jugar enchufado, se quitan las baterías y se conecta una fuente de 12 V en su lugar.</p>
+      <p>El % del marcador es lo que queda para gastar: 100 % es la batería cargada y 0 % es la media carga, de donde no conviene bajar el plomo. Home Assistant avisa al móvil cuando toca cargarlas, también si el futbolín lleva dos semanas sin encenderse, y recuerda apagarlo si lleva 30 minutos encendido sin jugarse.</p>
     </div>
     <figure class="lamina"><a href="@@ROOT@@futbolin/diagramas/alimentacion-cableado.svg" aria-label="Abrir el diagrama a tamaño completo"><img src="@@ROOT@@futbolin/diagramas/alimentacion-cableado.svg" width="760" height="390" alt="Cableado de las baterías: cada una con su portafusibles de 5 A, los dos positivos al interruptor y de ahí a las clemas de 12 V, que reparten a Gledopto, buck e interfaz; los negativos a la clema de GND" loading="lazy"></a><figcaption>Cada batería lleva su fusible junto al borne y los dos positivos se unen en el interruptor.</figcaption></figure>
     <div class="grid-media dos">
