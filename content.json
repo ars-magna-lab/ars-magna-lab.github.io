@@ -24,7 +24,8 @@
       "github_link": "Todos los repos en GitHub",
       "back": "Volver al inicio",
       "footer": "Sin cookies ni rastreadores.",
-      "figura_alt": "La Figura A de Ramon Llull, redibujada"
+      "figura_alt": "La Figura A de Ramon Llull, redibujada",
+      "privacy_link": "Privacidad"
     },
     "ca": {
       "title": "Ars Magna Lab",
@@ -40,7 +41,8 @@
       "github_link": "Tots els repos a GitHub",
       "back": "Tornar a l'inici",
       "footer": "Sense galetes ni rastrejadors.",
-      "figura_alt": "La Figura A de Ramon Llull, redibuixada"
+      "figura_alt": "La Figura A de Ramon Llull, redibuixada",
+      "privacy_link": "Privadesa"
     },
     "en": {
       "title": "Ars Magna Lab",
@@ -56,7 +58,8 @@
       "github_link": "All the repos on GitHub",
       "back": "Back to home",
       "footer": "No cookies, no trackers.",
-      "figura_alt": "Ramon Llull's Figure A, redrawn"
+      "figura_alt": "Ramon Llull's Figure A, redrawn",
+      "privacy_link": "Privacy"
     }
   },
   "projects": [
@@ -194,6 +197,125 @@
       "lab": [
         "Aquí és on construeixo les meves màquines: domòtica, apps, jocs i IA. No són rodes de paper, però la idea és la mateixa: combinar peces senzilles perquè una màquina pensi, jugui o ajudi.",
         "I com que el Puig de Randa és a Algaida, on visc i camino, el nom gairebé es va triar tot sol. L'emblema és la Figura A de Llull redibuixada: les nou lletres, les línies que les uneixen i els anells que giren."
+      ]
+    }
+  },
+  "privacy_page": {
+    "es": {
+      "title": "Política de privacidad",
+      "lead": "Qué datos usan esta web y las herramientas con las que Edu Herraiz gestiona el canal de YouTube Ars Magna Lab.",
+      "sections": [
+        [
+          "Esta web",
+          [
+            "No usa cookies ni rastreadores, y el autor no recoge datos de quien la visita. Se sirve con GitHub Pages y carga las fuentes de Google Fonts, que como cualquier servidor reciben la dirección IP del visitante."
+          ]
+        ],
+        [
+          "Las herramientas del canal",
+          [
+            "Ars Magna Lab tiene una aplicación propia que se conecta a la API de YouTube. La usa solo su autor, y solo con su propio canal, para consultar sus vídeos y listas y para actualizar títulos, descripciones, subtítulos, miniaturas y listas. No está abierta a otras personas.",
+            "Pide estos dos permisos de la cuenta de Google: <code>youtube.force-ssl</code> (ver y gestionar el canal) y <code>youtube.upload</code> (subir vídeos)."
+          ]
+        ],
+        [
+          "Qué datos trata y dónde están",
+          [
+            "Solo los datos del propio canal: sus metadatos, vídeos y transcripciones. El token de acceso se guarda en el ordenador del autor. Los datos del canal se guardan allí y en copias privadas suyas.",
+            "El autor puede usar herramientas de IA para redactar títulos, descripciones y traducciones a partir de esos datos. No se venden ni se comparten con fines publicitarios."
+          ]
+        ],
+        [
+          "Cómo retirar el acceso",
+          [
+            "El acceso se puede retirar en cualquier momento desde <a href=\"https://myaccount.google.com/permissions\" rel=\"noopener\">los permisos de la cuenta de Google</a>.",
+            "Al usar la API se aplican también las <a href=\"https://www.youtube.com/t/terms\" rel=\"noopener\">Condiciones de YouTube</a> y la <a href=\"https://policies.google.com/privacy\" rel=\"noopener\">Política de privacidad de Google</a>."
+          ]
+        ],
+        [
+          "Contacto",
+          [
+            "Edu Herraiz: <a href=\"mailto:youtube@eduherraiz.com\">youtube@eduherraiz.com</a>."
+          ]
+        ]
+      ]
+    },
+    "ca": {
+      "title": "Política de privadesa",
+      "lead": "Quines dades fan servir aquesta web i les eines amb què Edu Herraiz gestiona el canal de YouTube Ars Magna Lab.",
+      "sections": [
+        [
+          "Aquesta web",
+          [
+            "No fa servir galetes ni rastrejadors, i l'autor no recull dades de qui la visita. Se serveix amb GitHub Pages i carrega les fonts de Google Fonts, que com qualsevol servidor reben l'adreça IP del visitant."
+          ]
+        ],
+        [
+          "Les eines del canal",
+          [
+            "Ars Magna Lab té una aplicació pròpia que es connecta a l'API de YouTube. La fa servir només el seu autor, i només amb el seu propi canal, per consultar-ne els vídeos i les llistes i per actualitzar títols, descripcions, subtítols, miniatures i llistes. No està oberta a altres persones.",
+            "Demana aquests dos permisos del compte de Google: <code>youtube.force-ssl</code> (veure i gestionar el canal) i <code>youtube.upload</code> (pujar vídeos)."
+          ]
+        ],
+        [
+          "Quines dades tracta i on són",
+          [
+            "Només les dades del propi canal: les metadades, els vídeos i les transcripcions. El testimoni d'accés es guarda a l'ordinador de l'autor. Les dades del canal es guarden allà i en còpies privades seves.",
+            "L'autor pot fer servir eines d'IA per redactar títols, descripcions i traduccions a partir d'aquestes dades. No es venen ni es comparteixen amb finalitats publicitàries."
+          ]
+        ],
+        [
+          "Com retirar l'accés",
+          [
+            "L'accés es pot retirar en qualsevol moment des dels <a href=\"https://myaccount.google.com/permissions\" rel=\"noopener\">permisos del compte de Google</a>.",
+            "En fer servir l'API també s'hi apliquen les <a href=\"https://www.youtube.com/t/terms\" rel=\"noopener\">Condicions de YouTube</a> i la <a href=\"https://policies.google.com/privacy\" rel=\"noopener\">Política de privadesa de Google</a>."
+          ]
+        ],
+        [
+          "Contacte",
+          [
+            "Edu Herraiz: <a href=\"mailto:youtube@eduherraiz.com\">youtube@eduherraiz.com</a>."
+          ]
+        ]
+      ]
+    },
+    "en": {
+      "title": "Privacy policy",
+      "lead": "What data this website and the tools Edu Herraiz uses to manage the Ars Magna Lab YouTube channel handle.",
+      "sections": [
+        [
+          "This website",
+          [
+            "It uses no cookies or trackers, and the author collects no data from visitors. It is served by GitHub Pages and loads its fonts from Google Fonts, which, like any server, receive the visitor's IP address."
+          ]
+        ],
+        [
+          "The channel tools",
+          [
+            "Ars Magna Lab has its own application that connects to the YouTube API. Only its author uses it, and only with the author's own channel, to read its videos and playlists and to update titles, descriptions, captions, thumbnails and playlists. It is not open to anyone else.",
+            "It requests these two Google account permissions: <code>youtube.force-ssl</code> (view and manage the channel) and <code>youtube.upload</code> (upload videos)."
+          ]
+        ],
+        [
+          "What data it handles and where",
+          [
+            "Only the channel's own data: its metadata, videos and transcripts. The access token is stored on the author's computer. The channel data is stored there and in the author's private backups.",
+            "The author may use AI tools to draft titles, descriptions and translations from that data. It is not sold or shared for advertising."
+          ]
+        ],
+        [
+          "How to remove access",
+          [
+            "Access can be removed at any time from your <a href=\"https://myaccount.google.com/permissions\" rel=\"noopener\">Google account permissions</a>.",
+            "Using the API is also subject to the <a href=\"https://www.youtube.com/t/terms\" rel=\"noopener\">YouTube Terms of Service</a> and the <a href=\"https://policies.google.com/privacy\" rel=\"noopener\">Google Privacy Policy</a>."
+          ]
+        ],
+        [
+          "Contact",
+          [
+            "Edu Herraiz: <a href=\"mailto:youtube@eduherraiz.com\">youtube@eduherraiz.com</a>."
+          ]
+        ]
       ]
     }
   }

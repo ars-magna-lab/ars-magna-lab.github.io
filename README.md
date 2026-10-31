@@ -4,7 +4,7 @@ Web de [Ars Magna Lab](https://www.youtube.com/@arsmagna_lab), el canal de YouTu
 servida con GitHub Pages en https://arsmagnalab.com. En español, catalán e inglés
 (español en la raíz, el resto en `/ca/` y `/en/`).
 
-- Portada con el índice de proyectos, `llull/` (por qué el nombre) y `futbolin/` (el futbolín con Home Assistant).
+- Portada con el índice de proyectos, `llull/` (por qué el nombre), `privacidad/` y `futbolin/` (el futbolín con Home Assistant).
 - `python3 build.py` genera todo desde `content.json` y `_src/`; `--check` comprueba los enlaces externos.
 - Las páginas del futbolín se escriben a mano, una por idioma, en `_src/futbolin.<idioma>.html`.
   La media y los diagramas están una sola vez en `futbolin/`; los diagramas, solo en español

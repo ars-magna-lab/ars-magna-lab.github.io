@@ -6,6 +6,7 @@ Usage: python3 build.py            # generate
 Output, per language (es at the root, the others under /<lang>/):
   index.html                 home, with the index of projects
   llull/index.html           why the name
+  privacidad/index.html      privacy policy
   futbolin/index.html        the foosball table, from _src/futbolin.<lang>.html
 
 The foosball pages are written by hand, one file per language. Their media and
@@ -93,7 +94,7 @@ def shell(c, lang, path, title, description, body):
 <main>
   {lang_nav(c, lang, path, prefix)}
 {body}
-  <footer>© <a href="{c["links"]["author"]}" rel="noopener">Edu Herraiz</a> · {escape(c["ui"][lang]["footer"])}</footer>
+  <footer>© <a href="{c["links"]["author"]}" rel="noopener">Edu Herraiz</a> · {escape(c["ui"][lang]["footer"])} · <a href="{prefix}{base(lang)}privacidad/">{escape(c["ui"][lang]["privacy_link"])}</a></footer>
 </main>
 </body>
 </html>
@@ -161,6 +162,23 @@ def name_page(c, lang):
     return shell(c, lang, "llull/", f'{n["title"]} · Ars Magna Lab', n["lead"], body)
 
 
+def privacy_page(c, lang):
+    """The texts in content.json are written by hand and may carry links, so they are not escaped."""
+    ui = c["ui"][lang]
+    n = c["privacy_page"][lang]
+    sections = "\n".join(f"    <h2>{escape(h)}</h2>\n" + "\n".join(f"    <p>{p}</p>" for p in ps) for h, ps in n["sections"])
+    body = f"""
+  <article class="essay">
+    <p class="back"><a href="../">← {escape(ui["back"])}</a></p>
+    <h1>{escape(n["title"])}</h1>
+    <p class="lead">{escape(n["lead"])}</p>
+{sections}
+    <p class="back"><a href="../">← {escape(ui["back"])}</a></p>
+  </article>
+"""
+    return shell(c, lang, "privacidad/", f'{n["title"]} · Ars Magna Lab', n["lead"], body)
+
+
 def futbolin(c, lang):
     path = "futbolin/"
     prefix = "../" * (base(lang) + path).count("/")
@@ -196,6 +214,7 @@ def main():
     for lang in c["langs"]:
         for rel, html in ((base(lang) + "index.html", home(c, lang)),
                           (base(lang) + "llull/index.html", name_page(c, lang)),
+                          (base(lang) + "privacidad/index.html", privacy_page(c, lang)),
                           (base(lang) + "futbolin/index.html", futbolin(c, lang))):
             f = ROOT / rel
             f.parent.mkdir(parents=True, exist_ok=True)
