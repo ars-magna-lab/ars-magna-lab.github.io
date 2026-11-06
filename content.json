@@ -106,6 +106,14 @@
         [
           "GitHub",
           "https://github.com/ars-magna-lab/ars-domus"
+        ],
+        [
+          {
+            "es": "Vídeo",
+            "en": "Video",
+            "ca": "Vídeo"
+          },
+          "https://www.youtube.com/watch?v=480Ta170Xg8"
         ]
       ]
     },
